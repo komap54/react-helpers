@@ -9,7 +9,7 @@ import json from 'rollup-plugin-json';
 const pkg = require('./package.json')
 /* tslint:enable */
 
-const libraryName = 'awesome-library';
+const libraryName = 'react-helpers';
 
 export default {
   input: `src/${libraryName}.ts`,
@@ -18,7 +18,7 @@ export default {
     { file: pkg.module, format: 'es', sourcemap: true },
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-  external: [],
+  external: ['react', 'react-dom'],
   watch: {
     include: 'src/**',
   },

@@ -1,18 +1,21 @@
 {
-  "name": "awesome-library",
-  "version": "1.0.0",
+  "name": "@anissoft/react-helpers",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.0.3",
   "description": "",
   "keywords": [],
-  "main": "dist/awesome-library.umd.js",
-  "module": "dist/awesome-library.es5.js",
-  "typings": "dist/types/awesome-library.d.ts",
+  "main": "dist/react-helpers.umd.js",
+  "module": "dist/react-helpers.es5.js",
+  "typings": "dist/types/react-helpers.d.ts",
   "files": [
     "dist"
   ],
   "repository": {
-    "url": "https://git.skbkontur.ru/alexey.anisimov/awesome-library.npm"
+    "url": "https://github.com/Anissoft/react-helpers"
   },
-  "author": "--username-- <--usermail-->",
+  "author": "Alexey Anisimov",
   "license": "MIT",
   "engines": {
     "node": ">=8.0.0"
@@ -27,6 +30,7 @@
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish ",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "postinstall": "npm i ncp && ncp ./dist/lib/src/ ./",
     "commit": "git-cz",
     "precommit": "lint-staged",
     "init": "ts-node tools/init"
@@ -44,7 +48,7 @@
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     },
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
@@ -54,8 +58,7 @@
       "js"
     ],
     "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
+      "/node_modules/"
     ],
     "coverageThreshold": {
       "global": {
@@ -81,30 +84,38 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
-    "@types/jest": "^23.3.2",
+    "@types/enzyme": "^3.9.1",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.11",
     "@types/node": "^10.11.0",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.3",
     "colors": "^1.3.2",
     "commitizen": "^3.0.0",
     "coveralls": "^3.0.2",
     "cross-env": "^5.2.0",
     "cz-conventional-changelog": "^2.1.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "husky": "^1.0.1",
-    "jest": "^23.6.0",
+    "jest": "^24.5.0",
     "jest-config": "^23.6.0",
     "lint-staged": "^8.0.0",
     "lodash.camelcase": "^4.3.0",
     "prettier": "^1.14.3",
     "prompt": "^1.0.0",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
     "replace-in-file": "^3.4.2",
     "rimraf": "^2.6.3",
     "rollup": "^0.67.0",
-    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-commonjs": "^9.2.2",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.18.0",
+    "rollup-plugin-typescript2": "^0.18.1",
     "semantic-release": "^15.9.16",
-    "ts-jest": "^23.10.2",
+    "ts-jest": "^24.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
@@ -113,5 +124,9 @@
     "tslint-react": "^3.6.0",
     "typedoc": "^0.12.0",
     "typescript": "^3.2.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5"
   }
 }
