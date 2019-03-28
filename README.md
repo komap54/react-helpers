@@ -43,7 +43,45 @@ also, there is a shortener for case without else:
   </div>
 ```
 
+then and else props receive a callbacks - that allows you to safely use inside them methods or props, which can be reassigned
+
+```js
+  <div>
+    <If 
+      condition={!foo}
+      else={() => <p>{`Here some value for you ${foo.bar()}`}</p>}
+    />
+  </div>
+}
+```
+
 ## Hooks
+
+### - useRouter()
+
+React hook, which allows you to use [`match`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/match.md), [`location`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/location.md) and [`history`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/history.md) from React-Router
+```js
+import * as React from 'react';
+import If from '@anissoft/react-helpers/components/If';
+import useRouter from '@anissoft/react-helpers/hooks/useRouter';
+
+export default () => {
+  const {match, location, history} = useRouter();
+
+  return (
+    <div>
+     <p>Current route path: <b>{match.path}</b></p>
+     <p>Whole pathname of page: <b>{location.pathname}</b></p>
+     <input 
+        type="button"
+        onCLick={() => history.push(`${match.path}/directory`)}
+      >
+        Add directory
+      </>
+    </div>
+  );
+}
+```
 
 ### - useDebounce(value, delay)
 
@@ -68,7 +106,7 @@ export default () => {
 }
 ```
 
-### - useMounted
+### - useMounted()
 
 Shortway for 'didMount' property
 ```js
