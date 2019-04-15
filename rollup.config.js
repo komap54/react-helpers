@@ -13,6 +13,9 @@ const libraryName = 'react-helpers';
 
 export default {
   input: `src/${libraryName}.ts`,
+  acorn: {
+    allowHashBang: true,
+  },
   output: [
     { file: pkg.main, name: camelCase(libraryName), format: 'umd', sourcemap: true },
     { file: pkg.module, format: 'es', sourcemap: true },

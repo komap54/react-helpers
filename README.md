@@ -62,7 +62,6 @@ then and else props receive a callbacks - that allows you to safely use inside t
 React hook, which allows you to use [`match`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/match.md), [`location`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/location.md) and [`history`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/history.md) from React-Router
 ```js
 import * as React from 'react';
-import If from '@anissoft/react-helpers/components/If';
 import useRouter from '@anissoft/react-helpers/hooks/useRouter';
 
 export default () => {
@@ -121,7 +120,7 @@ export default () => {
     <div>
       <If 
         condition={didMount}
-        then={() => <p>Component just render</p>}
+        then={() => <p>Component just renders</p>}
         else={() => <p>Component was rendered before</p>}
       />
     </div>

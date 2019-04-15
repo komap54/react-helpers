@@ -4,10 +4,12 @@ import useDebounce from './hooks/useDebounce';
 import useMounted from './hooks/useMounted';
 import useRouter from './hooks/useRouter';
 
-export default {
+export const _export = {
   If,
   wait,
   useDebounce,
   useMounted,
   useRouter
-}
+};
+
+export default _export;
