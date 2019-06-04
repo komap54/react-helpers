@@ -11,5 +11,5 @@ export default function useRefFor<T1>(Component: React.ComponentType<T1>) {
 
   EnhancedComponent.displayName = `${Component.displayName}WithRef`;
 
-  return [ref, EnhancedComponent] as [React.Ref<T1>, React.ComponentType<T1>]
+  return [ref, EnhancedComponent] as [React.RefObject<T1>, React.ComponentType<T1>];
 }
