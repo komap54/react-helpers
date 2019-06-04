@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-interface InterfaceProps {
+interface IfProps {
   condition: boolean;
   then?: (() => React.ReactElement<any>);
   else?: (() => React.ReactElement<any>);
   children?: JSX.Element[] | JSX.Element;
 }
 
-function If(props: InterfaceProps) {
+function If(props: IfProps) {
   const { condition } = props;
 
   if (condition) {
