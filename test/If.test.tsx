@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { configure, shallow, mount } from 'enzyme';
-import helpers from '../src/react-helpers';
+import { If, Then, Else } from '../src/components/If';
 
 const Adapter = require('enzyme-adapter-react-16');
-const { If } = helpers;
 
 configure({ adapter: new Adapter() });
 
@@ -15,21 +14,21 @@ describe('If component', () => {
 
   test('Render children if true', () => {
     const wrapper = shallow(<If condition={true}><>{'Test string'}</></If>);
-    expect(wrapper.children().text()).toBe('Test string');
+    expect(wrapper.text()).toBe('Test string');
   });
 
   test('Render Then if true', () => {
-    const wrapper = shallow(<If condition={true} then={() => <>Test string</>} />);
-    expect(wrapper.children().text()).toBe('Test string');
+    const wrapper = shallow(<If condition={true} ><Then>Right string</Then><Else>Wrong string</Else></If>);
+    expect(wrapper.text()).toBe('Right string');
   });
 
   test('Render Else if false', () => {
-    const wrapper = shallow(<If condition={false} else={() => <>Test string</>} />);
-    expect(wrapper.children().text()).toBe('Test string');
+    const wrapper = shallow(<If condition={false} ><Then>Wrong string</Then><Else>Right string</Else></If>);
+    expect(wrapper.text()).toBe('Right string');
   });
 
   test('Render nothing if false', () => {
-    const wrapper = shallow(<If condition={true}><>{'Test string'}</></If>);
-    expect(wrapper.isEmptyRender()).toBe(false);
+    const wrapper = shallow(<If condition={false}><>{'Test string'}</></If>);
+    expect(wrapper.isEmptyRender()).toBe(true);
   });
 });

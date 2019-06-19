@@ -1,25 +1,57 @@
 import * as React from 'react';
 
-interface IfProps {
-  condition: boolean;
-  then?: (() => React.ReactElement<any>);
-  else?: (() => React.ReactElement<any>);
-  children?: JSX.Element[] | JSX.Element;
-}
+import { _, renderChildren } from '../../utils';
 
-function If(props: IfProps) {
-  const { condition } = props;
+type Children = (() => JSX.Element) | JSX.Element | JSX.Element[] | number | string | null;
 
-  if (condition) {
+// tslint:disable-next-line: function-name
+export const Then: React.FC = ({ children }) => {
+  return (<>{renderChildren(children)}</>);
+};
+// tslint:disable-next-line: function-name
+export const Else: React.FC = ({ children }) => {
+  return (<>{renderChildren(children)}</>);
+};
+
+// tslint:disable-next-line: function-name
+export function If({
+  condition,
+  children,
+}: {
+  condition: boolean | (() => boolean);
+  children?: Children;
+}) {
+  if (!children || children === null) {
+    return null;
+  }
+
+  if (typeof children === 'function') {
+    return _(condition) ? <>{children()}</> : null;
+  }
+
+  if (typeof children === 'string'
+    || typeof children === 'number'
+    || typeof children === 'boolean'
+    || (!Array.isArray(children) && children.type !== (<Else />).type)
+  ) {
+    return _(condition) ? <>{children}</> : null;
+  }
+
+  const options = (Array.isArray(children) ? children : [children]);
+
+  if (_(condition)) {
     return (
       <>
-        {props.then ? props.then() : null}
-        {props.children || null}
+        {options.find(child => (child.type === (<Then />).type)) || null}
       </>
     );
   }
 
-  return props.else ? props.else() : null;
-};
+  return (
+    <>
+      {options.find(child => (child.type === (<Else />).type)) || null}
+    </>
+  );
+}
 
-export default If;
+export default { If, Then, Else };

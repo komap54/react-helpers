@@ -8,26 +8,25 @@ Just run [`npm install` command](https://docs.npmjs.com/getting-started/installi
 $ npm install @anissoft/react-helpers
 ```
 ## Components:
-### - \<If [condition then else] />
+### - \<If [condition] />
 Conditional renders in jsx format
 
 ```js
 import * as React from 'react';
 import { render } from 'react-dom';
-import If from '@anissoft/react-helpers/components/If'
+import { If, Then, Else } from '@anissoft/react-helpers/components/If'
 
 import MainApp from 'Components/Main';
-import SecondaryApp from 'Components/Secondary';
+import Error from 'Components/Error';
 
 ...
 
 render(
   <div>
-    <If
-      condition={!isErrored}
-      then={() => <MainApp/>}
-      else={() => <SecondaryApp/>}
-    />
+    <If condition={!isErrored}>
+      <Then><MainApp/></Then>
+      <Else><Error/></Else>
+    </If>
   </div>,
   document.getElementById('app-root'),
 );
@@ -37,7 +36,7 @@ also, there is a shortener for case without else:
 
 ```js
   <div>
-    <If condition={isErrored}>
+    <If condition={!isErrored}>
       <MainApp/>
     </If>
   </div>
@@ -47,19 +46,81 @@ then and else props receive a callbacks - that allows you to safely use inside t
 
 ```js
   <div>
-    <If 
-      condition={!foo}
-      else={() => <p>{`Here some value for you ${foo.bar()}`}</p>}
-    />
+    <If condition={!!foo} >
+      <Then>{() => <p>{`Here some value for you ${foo.bar()}`}</p>}</Then>
+    </If>
   </div>
 }
+```
+
+### - \<Switch>
+
+Conditional rendering, but for several conditions. Simple implementation of javascript switch 
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Switch, Case, Default } from '@anissoft/react-helpers/components/Switch'
+
+import AdminView from 'Components/Admin';
+import UserView from 'Components/User';
+import DefaultView from 'Components/Default';
+
+...
+
+render(
+  <div>
+    <Switch>
+      <Case condition={ userRole === 'admin' }>
+        <AdminView />
+      </Case>
+      <Case condition={ userRole === 'regular' }>
+        <UserView />
+      </Case>
+      <Default>
+        <DefaultView />
+      </Default>
+    </Switch>
+  </div>,
+  document.getElementById('app-root'),
+);
+```
+
+### - \<Freeze [enabled]>
+Stops rerender its children if ```enabled = true```
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import Freeze from '@anissoft/react-helpers/components/Freeze'
+
+...
+
+const Example = () => {
+  const [state, setState] = React.useState(0);
+
+  React.useEffect(
+    () => {
+      setInterval(() => setState(old => old + 1), 1000);
+    },
+    [],
+  );
+
+  return (
+    <div>
+      <Freeze enabled={state >= 10}>
+        <span>Will update this number, until it became 10 - [{state}]</span>
+      </Freeze>
+    </div>
+  )
+};
 ```
 
 ## Hooks
 
 ### - useRouter()
 
-React hook, which allows you to use [`match`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/match.md), [`location`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/location.md) and [`history`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/history.md) from React-Router
+React hook, which allows you to use [`match`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/match.md), [`location`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/location.md) and [`history`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/history.md) from React-Router. Should be used in components under \<Router />, \<BrowserRouter> etc.
 ```js
 import * as React from 'react';
 import useRouter from '@anissoft/react-helpers/hooks/useRouter';
@@ -127,3 +188,35 @@ export default () => {
   );
 }
 ```
+
+### - useRefFor([React.Component])
+
+Returns enhanced component and ref for it;
+```js
+import * as React from 'react';
+import useRefFor from '@anissoft/react-helpers/hooks/useRefFor';
+
+import CustomInput from 'Components/MyInput';
+
+export default () => {
+  const [ref, Input] = useRefFor(CustomInput);
+
+  React.useEffect(
+    () => {
+      console.log('You changed value in input!')
+    },
+    [ref.current.value],
+  );
+
+  return (
+    <div>
+     <Input />
+    </div>
+  );
+}
+```
+
+### - useThrottle() - TBD: chnage to useThrottledState
+
+Returns throttled value;
+

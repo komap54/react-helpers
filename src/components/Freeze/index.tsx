@@ -5,7 +5,7 @@ const Freeze: React.FunctionComponent<{ enabled?: boolean }> = ({
   children,
 }) => {
   // tslint:disable-next-line: no-boolean-literal-compare
-  const shouldUpdate = enabled === false ? 'no' : Symbol('yes');
+  const shouldUpdate = enabled === false ? Symbol('yes') : 'no';
   return React.useMemo(() => <>{children}</>, [shouldUpdate]);
 };
 
