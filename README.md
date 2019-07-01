@@ -86,6 +86,35 @@ render(
 );
 ```
 
+### - \<Try [onCatch, silent]>
+An react [error boundarie component](https://reactjs.org/docs/error-boundaries.html), for catching errors from its own children
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import Try from '@anissoft/react-helpers/components/Try'
+
+...
+
+const ErrorComponent = ({ shouldThrow }: { shouldThrow?: boolean }) => {
+    if (shouldThrow) {
+      throw new Error('💣');
+    } else {
+      return null;
+    }
+  }
+
+const Example = () => {
+  return (
+    <div>
+      <Try onCatch={(error: Error) => <p>Smth went wrong</p>}>
+        <ErrorComponent shouldThrow/>
+      </Try>
+    </div>
+  )
+};
+```
+
 ### - \<Freeze [enabled]>
 Stops rerender its children if ```enabled = true```
 

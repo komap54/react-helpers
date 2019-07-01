@@ -1,34 +1,34 @@
 import * as React from 'react';
-import { configure, shallow, mount } from 'enzyme';
-import { If, Then, Else } from '../src/components/If';
 
-const Adapter = require('enzyme-adapter-react-16');
+import { cleanup, render } from '@testing-library/react';
 
-configure({ adapter: new Adapter() });
+import { Else, If, Then } from '../src/components/If';
 
 describe('If component', () => {
+  afterEach(cleanup);
+
   test('Empty render', () => {
-    const wrapper = shallow(<If condition={false} />);
-    expect(wrapper.isEmptyRender()).toBe(true);
+    const { container } = render(<If condition={false} />);
+    expect(container.innerHTML).toBe('');
   });
 
   test('Render children if true', () => {
-    const wrapper = shallow(<If condition={true}><>{'Test string'}</></If>);
-    expect(wrapper.text()).toBe('Test string');
+    const { container } = render(<If condition={true}><>{'Test string'}</></If>);
+    expect(container.innerHTML).toBe('Test string');
   });
 
   test('Render Then if true', () => {
-    const wrapper = shallow(<If condition={true} ><Then>Right string</Then><Else>Wrong string</Else></If>);
-    expect(wrapper.text()).toBe('Right string');
+    const { container } = render(<If condition={true}><Then>Right string</Then><Else>Wrong string</Else></If>);
+    expect(container.innerHTML).toBe('Right string');
   });
 
   test('Render Else if false', () => {
-    const wrapper = shallow(<If condition={false} ><Then>Wrong string</Then><Else>Right string</Else></If>);
-    expect(wrapper.text()).toBe('Right string');
+    const { container } = render(<If condition={false}><Then>Wrong string</Then><Else>Right string</Else></If>);
+    expect(container.innerHTML).toBe('Right string');
   });
 
   test('Render nothing if false', () => {
-    const wrapper = shallow(<If condition={false}><>{'Test string'}</></If>);
-    expect(wrapper.isEmptyRender()).toBe(true);
+    const { container } = render(<If condition={false}><>{'Test string'}</></If>);
+    expect(container.innerHTML).toBe('');
   });
 });
