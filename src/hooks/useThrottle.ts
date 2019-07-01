@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default <T1>(value: T1, limit: number = 100) => {
+export default function useThrottle<T1>(value: T1, limit: number = 100) {
   const [throttledValue, setThrottledValue] = useState(value);
   const lastRan = useRef(Date.now());
 

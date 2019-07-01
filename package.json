@@ -23,12 +23,11 @@
   "scripts": {
     "lint": "tslint --config tslint.json --fix --project tsconfig.json",
     "prebuild": "rimraf dist && rimraf docs",
-    "build": "tsc --module commonjs && rollup -c rollup.config.js && typedoc --out docs src --target es6 --excludeNotExported --theme default --mode file",
+    "build": "tsc --module commonjs && rollup -c rollup.config.js && typedoc --out docs src/react-helpers.ts --target es6 --excludeNotExported --theme default --mode file --exclude src/utils.ts",
     "start": "rollup -c rollup.config.js -w",
     "test": "jest --coverage --env=jsdom",
     "test:watch": "jest --coverage --watch --env=jsdom",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "generate-docs": "typedoc --out docs src  --target es6 --theme minimal --mode file",
     "deploy-docs": "ts-node tools/gh-pages-publish ",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "postinstall": "npm i ncp && ncp ./dist/lib/ ./",

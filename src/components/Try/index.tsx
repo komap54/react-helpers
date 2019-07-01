@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-class Try extends React.Component<
+export default class Try extends React.Component<
   {
     onCatch?: (error: Error) => React.ReactNode;
     silent?: boolean;
@@ -41,5 +41,3 @@ class Try extends React.Component<
     return this.props.children;
   }
 }
-
-export default Try;
