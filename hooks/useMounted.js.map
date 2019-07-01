@@ -1,1 +1,0 @@
-{"version":3,"file":"useMounted.js","sourceRoot":"","sources":["../../../src/hooks/useMounted.ts"],"names":[],"mappings":";;AAAA,+BAA4C;AAE5C,mBAAe;IACP,IAAA,4BAAuC,EAAtC,eAAO,EAAE,kBAA6B,CAAC;IAE9C,iBAAS,CACP;QACE,UAAU,CAAC,IAAI,CAAC,CAAC;IACnB,CAAC,EACD,EAAE,CACH,CAAC;IAEF,OAAO,OAAO,CAAC;AACjB,CAAC,EAAC"}

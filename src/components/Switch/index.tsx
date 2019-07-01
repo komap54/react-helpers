@@ -73,8 +73,6 @@ export function Switch({
     }
   }
 
-  // console.log(results)
-
   let hasCase = false;
   if (multiple) {
     const result = results.map(({ element, type }) => {

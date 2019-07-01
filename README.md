@@ -42,7 +42,7 @@ also, there is a shortener for case without else:
   </div>
 ```
 
-then and else props receive a callbacks - that allows you to safely use inside them methods or props, which can be reassigned
+Then and Else can receive a callbacks as children - that allows you to safely use inside them methods, props and variables
 
 ```js
   <div>
@@ -75,6 +75,27 @@ render(
         <AdminView />
       </Case>
       <Case condition={ userRole === 'regular' }>
+        <UserView />
+      </Case>
+      <Default>
+        <DefaultView />
+      </Default>
+    </Switch>
+  </div>,
+  document.getElementById('app-root'),
+);
+```
+
+Can render several positive cases
+
+```js
+render(
+  <div>
+    <Switch>
+      <Case condition={ userRoles.includes('admin') }>
+        <AdminView />
+      </Case>
+      <Case condition={ userRole.includes('regular') }>
         <UserView />
       </Case>
       <Default>

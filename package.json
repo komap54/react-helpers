@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "",
   "keywords": [],
   "main": "dist/react-helpers.umd.js",
@@ -22,12 +22,13 @@
   },
   "scripts": {
     "lint": "tslint --config tslint.json --fix --project tsconfig.json",
-    "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.js && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "prebuild": "rimraf dist && rimraf docs",
+    "build": "tsc --module commonjs && rollup -c rollup.config.js && typedoc --out docs src --target es6 --excludeNotExported --theme default --mode file",
     "start": "rollup -c rollup.config.js -w",
     "test": "jest --coverage --env=jsdom",
     "test:watch": "jest --coverage --watch --env=jsdom",
     "test:prod": "npm run lint && npm run test -- --no-cache",
+    "generate-docs": "typedoc --out docs src  --target es6 --theme minimal --mode file",
     "deploy-docs": "ts-node tools/gh-pages-publish ",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "postinstall": "npm i ncp && ncp ./dist/lib/ ./",
@@ -107,6 +108,7 @@
     "jest-dom": "^3.5.0",
     "lint-staged": "^8.2.1",
     "lodash.camelcase": "^4.3.0",
+    "marked": "^0.6.3",
     "prettier": "^1.18.2",
     "prompt": "^1.0.0",
     "react": "^16.8.6",
