@@ -17,8 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "declarationDir": "dist/lib",
-    "outDir": "dist/lib",
+    "declarationDir": ".",
+    "outDir": ".",
     "strictNullChecks": true,
     "noImplicitAny": true,
     "typeRoots": [
@@ -26,6 +26,10 @@
     ]
   },
   "include": [
-    "src"
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
