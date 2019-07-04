@@ -3,11 +3,11 @@ import * as If from './components/If';
 import * as Switch from './components/Switch';
 import Try from './components/Try';
 import wait from './helpers/Wait';
-import useDebounce from './hooks/useDebounce';
+import useDebounced from './hooks/useDebounced';
 import useMounted from './hooks/useMounted';
 import useRefFor from './hooks/useRefFor';
 import useRouter from './hooks/useRouter';
-import useThrottle from './hooks/useThrottle';
+import useThrottled from './hooks/useThrottled';
 
 export {
   If,
@@ -15,9 +15,9 @@ export {
   Switch,
   Try,
   wait,
-  useDebounce,
+  useDebounced,
   useMounted,
   useRouter,
-  useThrottle,
+  useThrottled,
   useRefFor,
 };

@@ -193,24 +193,57 @@ export default () => {
 }
 ```
 
-### - useDebounce(value, delay)
+### - useDebounced(value, delay)
 
 Debounce the [value] for [delay] (in ms)
 ```js
 import * as React from 'react';
-import useDebounce from '@anissoft/react-helpers/hooks/useDebounce';
+import useDebounced from '@anissoft/react-helpers/hooks/useDebounced';
 
-export default () => {
-  const [value, setValue] = useState('');
-  const debouncedValue = useDebounce(text, 300);
+export default ({initial}) => {
+  const [value, setValue] = useState(initial);
+  const [debouncedValue, setDebouncedValue] = useDebounced(initial, 300);
+
+  const handleChange = (e) => {
+     setValue(e.target.value);
+     setDebouncedValue(e.target.value);
+  }
 
   return (
     <div>
       <input
-        onChange={e => setValue(e.target.value)}
+        onChange={handleChange}
       />
       <p>Value: {value}</p>
       <p>DebouncedValue: {debouncedValue}</p>
+    </div>
+  );
+}
+```
+
+### - useThrottled(value, delay)
+
+Throttle the [value] for [delay] (in ms)
+```js
+import * as React from 'react';
+import useThrottled from '@anissoft/react-helpers/hooks/useThrottled';
+
+export default ({initial}) => {
+  const [value, setValue] = useState(initial);
+  const [throttledValue, setThrottledValue] = useThrottled(initial, 300);
+
+  const handleChange = (e) => {
+     setValue(e.target.value);
+     setThrottledValue(e.target.value);
+  }
+
+  return (
+    <div>
+      <input
+        onChange={handleChange}
+      />
+      <p>Value: {value}</p>
+      <p>ThrottledValue: {throttledValue}</p>
     </div>
   );
 }

@@ -19,6 +19,8 @@
     "emitDecoratorMetadata": true,
     "declarationDir": "dist/lib",
     "outDir": "dist/lib",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "typeRoots": [
       "node_modules/@types"
     ]

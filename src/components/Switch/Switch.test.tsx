@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cleanup, render } from '@testing-library/react';
 
-import { Case, Default, Switch } from '../src/components/Switch';
+import { Case, Default, Switch } from './';
 
 describe('Switch component', () => {
   afterEach(cleanup);
@@ -10,6 +10,11 @@ describe('Switch component', () => {
   test('Render children without cases', () => {
     const { container } = render(<Switch>{'Test string;'}</Switch>);
     expect(container.innerHTML).toBe('Test string;');
+  });
+
+  test('Render null as a children', () => {
+    const { container } = render(<Switch></Switch>);
+    expect(container.innerHTML).toBe('');
   });
 
   test('Should render if case condition === true', () => {
@@ -104,6 +109,21 @@ describe('Switch component', () => {
       </Switch>
     );
     expect(container.innerHTML).toBe('Test string;Right string;Also right string;');
+  });
+
+  test('Should render Default if there are no positive cases when multiple === true', () => {
+    const { container } = render(
+      <Switch multiple>
+        <>{'Test string;'}</>
+        <Case condition={false}>
+          {'Wrong string;'}
+        </Case>
+        <Default>
+          {'Right string;'}
+        </Default>
+      </Switch>
+    );
+    expect(container.innerHTML).toBe('Test string;Right string;');
   });
 
   test('Should render all positive cases, when multiple === true, but not after case with break ===true', () => {

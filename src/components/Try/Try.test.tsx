@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { cleanup, render } from '@testing-library/react';
 
-import Try from '../src/components/Try';
+import Try from './';
 
 describe('Try component', () => {
   beforeEach(() => {

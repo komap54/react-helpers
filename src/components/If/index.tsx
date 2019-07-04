@@ -36,20 +36,19 @@ export function If({
   ) {
     return _(condition) ? <>{children}</> : null;
   }
-
   const options = (Array.isArray(children) ? children : [children]);
 
   if (_(condition)) {
     return (
       <>
-        {options.find(child => (child.type === (<Then />).type)) || null}
+        {options.filter(child => (child.type !== (<Else />).type)) || null}
       </>
     );
   }
 
   return (
     <>
-      {options.find(child => (child.type === (<Else />).type)) || null}
+      {options.filter(child => (child.type !== (<Then />).type)) || null}
     </>
   );
 }

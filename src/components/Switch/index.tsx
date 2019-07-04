@@ -8,7 +8,7 @@ type Children = JSX.Element | (string | JSX.Element)[] | number | string | null;
 export const Case: React.FC<{
   condition: (() => boolean) | boolean,
   break?: boolean,
-}> = ({ children, condition }) => {
+}> = ({ children }) => {
   return (<>{renderChildren(children)}</>);
 };
 // tslint:disable-next-line: function-name
