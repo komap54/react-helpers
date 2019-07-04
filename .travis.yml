@@ -4,11 +4,12 @@ node_js:
 deploy:
   provider: npm
   email: anissoftkun@gmail.com
+  api_key: $NPMJS_ACCESS_TOKEN
   before_script: npm install
   script: "cp .template.npmrc $HOME/.npmrc && npm publish"
   skip_cleanup: true
   on:
-    tags: true
+    branch: master
 notifications:
   email:
     recipients:
