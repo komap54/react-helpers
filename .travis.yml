@@ -5,7 +5,9 @@ deploy:
   provider: npm
   email: anissoftkun@gmail.com
   api_key: $NPMJS_ACCESS_TOKEN
-  before_script: npm install
+  before_script:
+    - npm install
+    - npm build
   script: "cp .template.npmrc $HOME/.npmrc && npm publish"
   skip_cleanup: true
   on:
