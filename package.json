@@ -3,15 +3,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "",
   "keywords": [],
   "main": "dist/react-helpers.umd.js",
   "module": "dist/react-helpers.es5.js",
   "typings": "dist/types/react-helpers.d.ts",
-  "files": [
-    "dist"
-  ],
   "repository": {
     "url": "https://github.com/Anissoft/react-helpers"
   },
