@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import React from 'react';
 
 export type CountdownLocale = 'ru' | 'ru-passive' | 'en';
@@ -84,9 +85,9 @@ export const Countdown = ({
   onExpire?(): void,
   locale?: CountdownLocale
 }) => {
-  const [timeLeft, setTimeLeft] = React.useState(seconds);
+  const [timeLeft, setTimeLeft] = useState(seconds);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (timeLeft <= 0) {
       if (onExpire) {
         onExpire();
