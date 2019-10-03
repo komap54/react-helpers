@@ -3,12 +3,17 @@
 Just bunch of helpers and hooks, that I commonly use in my code
 
 ## Installation
+
 Just run [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+
 ```bash
 $ npm install @anissoft/react-helpers
 ```
+
 ## Components:
+
 ### - \<If [condition] />
+
 Conditional renders in jsx format
 
 ```js
@@ -108,6 +113,7 @@ render(
 ```
 
 ### - \<Try [onCatch, silent]>
+
 An react [error boundarie component](https://reactjs.org/docs/error-boundaries.html), for catching errors from its own children
 
 ```js
@@ -137,6 +143,7 @@ const Example = () => {
 ```
 
 ### - \<Freeze [enabled]>
+
 Stops rerender its children if ```enabled = true```
 
 ```js
@@ -161,6 +168,26 @@ const Example = () => {
       <Freeze enabled={state >= 10}>
         <span>Will update this number, until it became 10 - [{state}]</span>
       </Freeze>
+    </div>
+  )
+};
+```
+
+### - \<Countdown [enabled]>
+
+Shows coundown in minutes or/and seconds. Supports locales `"en"` and `"ru"`
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import Countdown from '@anissoft/react-helpers/components/Countdown'
+
+...
+
+const Example = () => {
+  return (
+    <div>
+      You have <Countdown seconds={120} format="mm ss"/> left
     </div>
   )
 };

@@ -2,6 +2,7 @@ import Freeze from './components/Freeze';
 import * as If from './components/If';
 import * as Switch from './components/Switch';
 import Try from './components/Try';
+export * from './components/Countdown';
 import wait from './helpers/Wait';
 import useDebounced from './hooks/useDebounced';
 import useMounted from './hooks/useMounted';

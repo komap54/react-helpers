@@ -10,7 +10,7 @@ compiled
 .awcache
 .rpt2_cache
 docs
-components
+/components
 hooks
 helpers
 /*.js

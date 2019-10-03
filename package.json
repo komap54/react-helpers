@@ -3,12 +3,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "",
   "keywords": [],
   "main": "dist/react-helpers.umd.js",
   "module": "dist/react-helpers.es5.js",
-  "typings": "dist/types/react-helpers.d.ts",
+  "typings": "react-helpers.d.ts",
   "repository": {
     "url": "https://github.com/Anissoft/react-helpers"
   },
@@ -21,6 +21,7 @@
     "lint": "tslint --config tslint.json --fix --project tsconfig.json",
     "prebuild": "rimraf dist && rimraf docs",
     "build": "tsc --module commonjs && rollup -c rollup.config.js && typedoc --out docs src/react-helpers.ts --target es6 --excludeNotExported --theme default --mode file --exclude src/utils.ts",
+    "build:watch": "tsc --module commonjs -w",
     "start": "rollup -c rollup.config.js -w",
     "test": "jest --coverage --env=jsdom",
     "test:watch": "jest --coverage --watch --env=jsdom",
