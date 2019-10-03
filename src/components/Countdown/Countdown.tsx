@@ -81,7 +81,7 @@ export const Countdown = ({
 }: {
   seconds: number,
   format?: CountdownFormat,
-  onExpire?(): void,
+  onExpire?: () => void,
   locale?: CountdownLocale
 }) => {
   const [timeLeft, setTimeLeft] = useState(seconds);
