@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export type CountdownLocale = 'ru' | 'ru-passive' | 'en';
 export type CountdownFormat = 's' | 'ss' | 'mm ss' | 'm:s' | 'm' | 'mm';
