@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { act } from 'react-dom/test-utils';
 
 export type CountdownLocale = 'ru' | 'ru-passive' | 'en';
 export type CountdownFormat = 's' | 'ss' | 'mm ss' | 'm:s' | 'm' | 'mm';
@@ -39,7 +40,7 @@ export const formatTime = (seconds: number, format: CountdownFormat, locale: Cou
       switch (locale) {
         case ('ru'):
         case ('ru-passive'):
-          return (fullMminutesLeft > 0 ? `${fullMminutesLeft} минут${puralize(fullMminutesLeft, locale)} ` : '')
+          return (fullMminutesLeft > 0 ? `${fullMminutesLeft} минут${puralize(fullMminutesLeft, 'ru')} ` : '')
             + `${secondsLeft} секунд${puralize(secondsLeft, locale)}`;
         case ('en'):
         default:
@@ -93,12 +94,13 @@ export const Countdown = ({
       }
       return () => undefined;
     } else {
-      let lastReduction = Date.now();
+      const startAt = Date.now();
       const interval = setInterval(() => {
-        const timePassed = Date.now() - lastReduction;
-        if (timePassed >= 1000) {
-          lastReduction = lastReduction + timePassed;
-          setTimeLeft(oldValue => oldValue - Math.ceil(timePassed / 1000));
+        const currentTime = seconds - Math.ceil((Date.now() - startAt) / 1000);
+        if (currentTime !== seconds) {
+          act(() => {
+            setTimeLeft(currentTime);
+          });
         }
       }, 100);
       return () => clearInterval(interval);

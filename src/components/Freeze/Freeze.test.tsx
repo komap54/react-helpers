@@ -27,7 +27,7 @@ const Example = ({ start }: { start: number }) => {
 describe('Freeze component', () => {
   afterEach(cleanup);
 
-  test('Should renders children normally if enabled falsy', () => {
+  test('Should render children normally if enabled falsy', () => {
     const { container } = render(<Example start={0} />);
     expect(container.textContent).toBe('0');
   });
