@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { act } from 'react-dom/test-utils';
 
 export type CountdownLocale = 'ru' | 'ru-passive' | 'en';
 export type CountdownFormat = 's' | 'ss' | 'mm ss' | 'm:s' | 'm' | 'mm';
@@ -98,9 +97,7 @@ export const Countdown = ({
       const interval = setInterval(() => {
         const currentTime = seconds - Math.ceil((Date.now() - startAt) / 1000);
         if (currentTime !== seconds) {
-          act(() => {
-            setTimeLeft(currentTime);
-          });
+          setTimeLeft(currentTime);
         }
       }, 100);
       return () => clearInterval(interval);
