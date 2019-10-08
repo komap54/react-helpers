@@ -1,8 +1,10 @@
-import Freeze from './components/Freeze';
-import * as If from './components/If';
-import * as Switch from './components/Switch';
-import Try from './components/Try';
+export * from './components/Iframe';
 export * from './components/Countdown';
+export * from './components/Freeze';
+export * from './components/If';
+export * from './components/Switch';
+export * from './components/Try';
+
 import wait from './helpers/Wait';
 import useDebounced from './hooks/useDebounced';
 import useMounted from './hooks/useMounted';
@@ -11,10 +13,6 @@ import useRouter from './hooks/useRouter';
 import useThrottled from './hooks/useThrottled';
 
 export {
-  If,
-  Freeze,
-  Switch,
-  Try,
   wait,
   useDebounced,
   useMounted,
