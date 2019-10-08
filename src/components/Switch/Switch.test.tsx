@@ -143,4 +143,27 @@ describe('Switch component', () => {
     );
     expect(container.innerHTML).toBe('Test string;Right string;');
   });
+
+  test('Should throw error outside', () => {
+    console.error = jest.fn();
+    const ErrorComponent = ({ shouldThrow }: { shouldThrow?: boolean }) => {
+      if (shouldThrow) {
+        throw new Error('💣');
+      } else {
+        return null;
+      }
+    }
+    try {
+      const { container } = render(
+        <Switch multiple>
+          <>{'Test string;'}</>
+          <Case condition={true}>
+            <ErrorComponent shouldThrow />
+          </Case>
+        </Switch>
+      );
+    } catch (e) {
+      expect(e.message).toBe('💣');
+    }
+  });
 });

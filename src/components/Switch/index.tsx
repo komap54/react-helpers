@@ -4,19 +4,16 @@ import { _, renderChildren } from '../../utils';
 
 type Children = JSX.Element | (string | JSX.Element)[] | number | string | null;
 
-// tslint:disable-next-line: function-name
 export const Case: React.FC<{
   condition: (() => boolean) | boolean,
   break?: boolean,
 }> = ({ children }) => {
   return (<>{renderChildren(children)}</>);
 };
-// tslint:disable-next-line: function-name
 export const Default: React.FC = ({ children }) => {
   return (<>{renderChildren(children)}</>);
 };
 
-// tslint:disable-next-line: function-name
 export function Switch({
   children,
   multiple,
