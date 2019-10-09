@@ -11,7 +11,7 @@ describe('Countdown component', () => {
     const { container, } = render(<Countdown seconds={4} format="m:s" locale="en" />);
     expect(container.textContent).toBe('00:04');
     await new Promise((res) => setTimeout(() => res(), 1000));
-    expect(container.textContent).toBe('00:03');
+    expect(['00:03', '00:02']).toContain(container.textContent);
     await new Promise((res) => setTimeout(() => res(), 3000));
     expect(container.textContent).toBe('00:00');
     end();

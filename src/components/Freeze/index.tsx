@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const Freeze: React.FunctionComponent<{ enabled?: boolean }> = ({
+export const Freeze: React.FunctionComponent<{ enabled?: boolean }> = ({
   enabled,
   children,
 }) => {
