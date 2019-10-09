@@ -5,7 +5,7 @@ export type IframeProps = {
   src: string,
   onMessage?: (event: MessageEvent) => void
   onLoad?: () => void;
-  onError?: () => void;
+  onFail?: () => void;
   skipHeadCheck?: boolean;
 } & React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement>;
 
@@ -43,7 +43,7 @@ export const Iframe = React.forwardRef(({
   skipHeadCheck = false,
   onMessage,
   onLoad,
-  onError,
+  onFail,
   ...other
 }: IframeProps,
   ref: React.Ref<IframeRefObject>,
@@ -71,7 +71,7 @@ export const Iframe = React.forwardRef(({
           setCanBeLoaded(true);
         }
       ).catch(
-        err => onError && onError(err)
+        () => onFail && onFail()
       );
     }
   }, [src, skipHeadCheck])
