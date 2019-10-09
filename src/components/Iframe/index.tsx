@@ -103,7 +103,7 @@ export const Iframe = React.forwardRef(({
       }
 
       if (onMessage) {
-        return (ref as any).current.onMessage(onMessage);
+        return proxy.onMessage(onMessage);
       }
     }
 
