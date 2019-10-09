@@ -79,7 +79,7 @@ export const Iframe = React.forwardRef(({
   React.useEffect(() => {
     const targetOrigin = new URL(src).origin;
     if (canBeLoaded) {
-      (ref as any).current = {
+      const proxy = {
         amIIframe: () => false,
         onMessage: (listener: (event: MessageEvent) => void) => {
           const secureListener = (event: MessageEvent) => {
@@ -97,6 +97,10 @@ export const Iframe = React.forwardRef(({
           && iframe.current.contentWindow
           && iframe.current.contentWindow.postMessage(message, targetOrigin),
       } as IframeRefObject;
+
+      if (ref) {
+        (ref as any).current = proxy;
+      }
 
       if (onMessage) {
         return (ref as any).current.onMessage(onMessage);
