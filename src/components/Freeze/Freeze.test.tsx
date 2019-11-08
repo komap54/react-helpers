@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { act, cleanup, render } from '@testing-library/react';
 
-import Freeze from './';
+import Freeze from '.';
 
 const Example = ({ start }: { start: number }) => {
   const [state, setState] = React.useState(start);
@@ -10,7 +10,7 @@ const Example = ({ start }: { start: number }) => {
   React.useEffect(
     () => {
       const interval = setInterval(() => act(() => { setState(old => old + 1); }), 5);
-      return () => clearInterval(interval)
+      return () => clearInterval(interval);
     },
     [],
   );
@@ -21,7 +21,7 @@ const Example = ({ start }: { start: number }) => {
         {state}
       </Freeze>
     </div>
-  )
+  );
 };
 
 describe('Freeze component', () => {
@@ -37,6 +37,6 @@ describe('Freeze component', () => {
     setTimeout(() => {
       expect(container.textContent).toBe('10');
       finish();
-    }, 300)
+    }, 300);
   });
 });

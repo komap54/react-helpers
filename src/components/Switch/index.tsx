@@ -5,8 +5,8 @@ import { _, renderChildren } from '../../utils';
 type Children = JSX.Element | (string | JSX.Element)[] | number | string | null;
 
 export const Case: React.FC<{
-  condition: (() => boolean) | boolean,
-  break?: boolean,
+  condition: (() => boolean) | boolean;
+  break?: boolean;
 }> = ({ children }) => {
   return (<>{renderChildren(children)}</>);
 };
@@ -19,7 +19,7 @@ export function Switch({
   multiple,
 }: {
   children?: Children;
-  multiple?: boolean
+  multiple?: boolean;
 }) {
   if (!children || children === null) {
     return null;
@@ -32,7 +32,7 @@ export function Switch({
     return <>{children}</>;
   }
 
-  const results: { element: React.ReactNode, type: 'always' | 'condition' | 'default' }[] = [];
+  const results: { element: React.ReactNode; type: 'always' | 'condition' | 'default' }[] = [];
   const BreakException = {};
 
   try {
@@ -41,13 +41,13 @@ export function Switch({
         results.push({
           element: child,
           type: 'always'
-        })
+        });
       } else if (child.type === Case) {
         if (_(child.props.condition)) {
           results.push({
             element: child,
             type: 'condition'
-          })
+          });
         }
         if (_(child.props.break)) {
           throw (BreakException);
@@ -56,12 +56,12 @@ export function Switch({
         results.push({
           element: child,
           type: 'default'
-        })
+        });
       } else {
         results.push({
           element: child,
           type: 'always'
-        })
+        });
       }
     });
   } catch (e) {

@@ -1,14 +1,14 @@
-/* tslint:disable */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { cd, exec, echo, touch } = require('shelljs');
 const { readFileSync } = require('fs');
 const url = require('url');
-/* tslint:enable */
 
 let repoUrl: string;
 const pkg = JSON.parse(readFileSync('package.json') as any);
 if (!pkg.repository) {
   throw new Error('package.json does\'t have a reository section');
 } else if (typeof pkg.repository === 'object') {
+  // eslint-disable-next-line no-prototype-builtins
   if (!pkg.repository.hasOwnProperty('url')) {
     throw new Error('URL does not exist in repository section');
   }

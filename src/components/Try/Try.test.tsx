@@ -4,33 +4,36 @@ import * as React from 'react';
 
 import { cleanup, render } from '@testing-library/react';
 
-import Try from './';
+import Try from '.';
 
 describe('Try component', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => { });
     jest.spyOn(console, 'warn').mockImplementation(() => { });
-  })
+  });
   afterEach(() => {
     cleanup();
     (console.error as any).mockRestore();
     (console.warn as any).mockRestore();
-  })
+  });
   const ErrorComponent = ({ shouldThrow }: { shouldThrow?: boolean }) => {
     if (shouldThrow) {
       throw new Error('💣');
     } else {
       return null;
     }
-  }
+  };
   const ErrorParent = () => (
     <>
       <ErrorComponent shouldThrow />
     </>
-  )
+  );
 
   test('Render children without errors', () => {
-    const { container } = render(<Try><ErrorComponent />Test string;</Try>);
+    const { container } = render(<Try>
+      <ErrorComponent />
+Test string;
+    </Try>);
     expect(container.innerHTML).toBe('Test string;');
   });
 

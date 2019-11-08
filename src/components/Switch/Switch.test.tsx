@@ -2,18 +2,18 @@ import * as React from 'react';
 
 import { cleanup, render } from '@testing-library/react';
 
-import { Case, Default, Switch } from './';
+import { Case, Default, Switch } from '.';
 
 describe('Switch component', () => {
   afterEach(cleanup);
 
   test('Render children without cases', () => {
-    const { container } = render(<Switch>{'Test string;'}</Switch>);
+    const { container } = render(<Switch>Test string;</Switch>);
     expect(container.innerHTML).toBe('Test string;');
   });
 
   test('Render null as a children', () => {
-    const { container } = render(<Switch></Switch>);
+    const { container } = render(<Switch />);
     expect(container.innerHTML).toBe('');
   });
 
@@ -21,11 +21,11 @@ describe('Switch component', () => {
     const { container } = render(
       <Switch>
         Test string;
-        <Case condition={true}>
-          {'Right string;'}
+        <Case condition>
+          Right string;
         </Case>
         <Case condition={false}>
-          {'Wrong string;'}
+          Wrong string;
         </Case>
       </Switch>
     );
@@ -36,11 +36,11 @@ describe('Switch component', () => {
     const { container } = render(
       <Switch>
         Test string;
-        <Case condition={true}>
+        <Case condition>
           {() => 'Right string;'}
         </Case>
         <Case condition={false}>
-          {'Wrong string;'}
+          Wrong string;
         </Case>
       </Switch>
     );
@@ -51,12 +51,12 @@ describe('Switch component', () => {
   test('Should render Default if there are no positive cases', () => {
     const { container } = render(
       <Switch>
-        <>{'Test string;'}</>
+        <>Test string;</>
         <Case condition={false}>
-          {'Wrong string;'}
+          Wrong string;
         </Case>
         <Default>
-          {'Right string;'}
+          Right string;
         </Default>
       </Switch>
     );
@@ -67,11 +67,11 @@ describe('Switch component', () => {
     const { container } = render(
       <Switch>
         Test string;
-        <Case condition={true}>
-          {'Right string;'}
+        <Case condition>
+          Right string;
         </Case>
         <Default>
-          {'Wrong string;'}
+          Wrong string;
         </Default>
       </Switch>
     );
@@ -81,12 +81,12 @@ describe('Switch component', () => {
   test('Should render only one case if condition === true', () => {
     const { container } = render(
       <Switch>
-        <>{'Test string;'}</>
-        <Case condition={true}>
-          {'Right string;'}
+        <>Test string;</>
+        <Case condition>
+          Right string;
         </Case>
-        <Case condition={true}>
-          {'Wrong string;'}
+        <Case condition>
+          Wrong string;
         </Case>
       </Switch>
     );
@@ -96,15 +96,15 @@ describe('Switch component', () => {
   test('Should render only all positive cases, when multiple === true', () => {
     const { container } = render(
       <Switch multiple>
-        <>{'Test string;'}</>
-        <Case condition={true}>
-          {'Right string;'}
+        <>Test string;</>
+        <Case condition>
+          Right string;
         </Case>
         <Case condition={false}>
-          {'Wrong string;'}
+          Wrong string;
         </Case>
-        <Case condition={true}>
-          {'Also right string;'}
+        <Case condition>
+          Also right string;
         </Case>
       </Switch>
     );
@@ -114,12 +114,12 @@ describe('Switch component', () => {
   test('Should render Default if there are no positive cases when multiple === true', () => {
     const { container } = render(
       <Switch multiple>
-        <>{'Test string;'}</>
+        <>Test string;</>
         <Case condition={false}>
-          {'Wrong string;'}
+          Wrong string;
         </Case>
         <Default>
-          {'Right string;'}
+          Right string;
         </Default>
       </Switch>
     );
@@ -129,15 +129,15 @@ describe('Switch component', () => {
   test('Should render all positive cases, when multiple === true, but not after case with break ===true', () => {
     const { container } = render(
       <Switch multiple>
-        <>{'Test string;'}</>
-        <Case condition={true} break>
-          {'Right string;'}
+        <>Test string;</>
+        <Case condition break>
+          Right string;
         </Case>
         <Case condition={false}>
-          {'Wrong string;'}
+          Wrong string;
         </Case>
-        <Case condition={true}>
-          {'Not right string;'}
+        <Case condition>
+          Not right string;
         </Case>
       </Switch>
     );
@@ -152,12 +152,12 @@ describe('Switch component', () => {
       } else {
         return null;
       }
-    }
+    };
     try {
       const { container } = render(
         <Switch multiple>
-          <>{'Test string;'}</>
-          <Case condition={true}>
+          <>Test string;</>
+          <Case condition>
             <ErrorComponent shouldThrow />
           </Case>
         </Switch>

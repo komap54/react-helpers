@@ -2,8 +2,8 @@ import * as React from 'react';
 
 
 export type IframeProps = {
-  src: string,
-  onMessage?: (event: MessageEvent) => void
+  src: string;
+  onMessage?: (event: MessageEvent) => void;
   onLoad?: () => void;
   onFail?: () => void;
   skipHeadCheck?: boolean;
@@ -23,8 +23,8 @@ export const ParentProxy: IframeRefObject = {
       if (event.origin === window.document.referrer) {
         return listener(event);
       }
-      return;
-    }
+      return null;
+    };
 
     window.addEventListener(
       'message',
@@ -34,7 +34,7 @@ export const ParentProxy: IframeRefObject = {
 
     return () => {
       window.removeEventListener('message', secureListener);
-    }
+    };
   }
 };
 
@@ -46,10 +46,11 @@ export const Iframe = React.forwardRef(({
   onFail,
   ...other
 }: IframeProps,
-  ref: React.Ref<IframeRefObject>,
+ref: React.Ref<IframeRefObject>,
 ) => {
   const [canBeLoaded, setCanBeLoaded] = React.useState(false);
   const iframe = React.createRef<HTMLIFrameElement>();
+  // eslint-disable-next-line no-param-reassign
   delete (other as any).computedMatch;
 
   React.useEffect(() => {
@@ -74,7 +75,7 @@ export const Iframe = React.forwardRef(({
         () => onFail && onFail()
       );
     }
-  }, [src, skipHeadCheck])
+  }, [src, skipHeadCheck]);
 
   React.useEffect(() => {
     const targetOrigin = new URL(src).origin;
@@ -86,7 +87,7 @@ export const Iframe = React.forwardRef(({
             if (event.origin === targetOrigin) {
               return listener(event);
             }
-            return;
+            return null;
           };
 
           window.addEventListener('message', secureListener, false);
@@ -99,6 +100,7 @@ export const Iframe = React.forwardRef(({
       } as IframeRefObject;
 
       if (ref) {
+        // eslint-disable-next-line no-param-reassign
         (ref as any).current = proxy;
       }
 
@@ -107,21 +109,23 @@ export const Iframe = React.forwardRef(({
       }
     }
 
-    return () => undefined
+    return () => undefined;
   }, [onMessage, canBeLoaded]);
 
   React.useEffect(() => {
     if (iframe.current && canBeLoaded) {
       iframe.current.onload = () => {
-        onLoad && onLoad();
-      }
+        if (onLoad) {
+          onLoad();
+        }
+      };
     }
     return () => {
       if (iframe.current) {
-        delete iframe.current.onload
+        delete iframe.current.onload;
       }
-    }
-  }, [iframe.current, canBeLoaded])
+    };
+  }, [iframe.current, canBeLoaded]);
 
   if (!canBeLoaded) {
     return null;
@@ -129,12 +133,13 @@ export const Iframe = React.forwardRef(({
 
   return (
     <iframe
+      title="react-iframe"
       src={src}
       frameBorder="0"
       {...other}
       ref={iframe}
     />
-  )
+  );
 });
 
 export default Iframe;

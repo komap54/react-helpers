@@ -10,14 +10,14 @@ describe('hook useMounted', () => {
   const Example = () => {
     const mounted = useMounted();
 
-    return (<span>{mounted ? 'Mounted' : 'NotMounted'}</span>)
-  }
+    return (<span>{mounted ? 'Mounted' : 'NotMounted'}</span>);
+  };
 
   test('should return change value after mount', (finish) => {
     const { container } = render(<Example />);
     setTimeout(() => {
       expect(container.textContent).toBe('Mounted');
       finish();
-    }, 0)
+    }, 0);
   });
 });
