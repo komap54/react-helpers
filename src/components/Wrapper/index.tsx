@@ -5,7 +5,7 @@ import { _ } from '../../utils';
 type Children = (() => JSX.Element) | JSX.Element | JSX.Element[] | number | string | null | undefined;
 
 export type CommonWrapperProps = {
-  in: boolean | (() => boolean);
+  condition: boolean | (() => boolean);
   children?: Children;
 };
 
@@ -20,7 +20,7 @@ export type WrapperPropsWithWrapFunc = {
 // tslint:disable-next-line: function-name
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Wrapper: React.JSXElementConstructor<WrapperPropsWithWrapper | WrapperPropsWithWrapFunc> = ({
-  in: condition,
+  condition,
   children,
   ...other
 }) => {
@@ -42,9 +42,8 @@ export const Wrapper: React.JSXElementConstructor<WrapperPropsWithWrapper | Wrap
     if (wrap) {
       return <>{wrap(inner)}</>;
     }
-    return <>{inner}</>;
   }
-  return <>{null}</>;
+  return <>{inner}</>;
 };
 
 export default Wrapper;

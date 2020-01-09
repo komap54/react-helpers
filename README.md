@@ -58,6 +58,57 @@ Then and Else can receive a callbacks as children - that allows you to safely us
 }
 ```
 
+
+### - \<Wrapper [condition] />
+
+Conditional render like in <If />, but this time for wrapper component
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Wrapper } from '@anissoft/react-helpers/components/Wrapper'
+
+import MainApp from 'Components/Main';
+import MobleViewWrapper from 'Components/Mobile';
+
+...
+
+render(
+  <div>
+    <Wrapper condition={isMobile} wrapper={MobleViewWrapper}>
+      <MainApp/>
+    </Wrapper>
+  </div>,
+  document.getElementById('app-root'),
+);
+```
+
+also, can be used with function `wrap` as wrapper
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Wrapper } from '@anissoft/react-helpers/components/Wrapper'
+
+import MainApp from 'Components/Main';
+import MobleViewWrapper from 'Components/Mobile';
+
+...
+const wrapIn= (children) => {
+  ...
+  return <MobleViewWrapper>{children}</MobleViewWrapper>
+}
+
+render(
+  <div>
+    <Wrapper condition={isMobile} wrap={wrapIn}>
+      <MainApp/>
+    </Wrapper>
+  </div>,
+  document.getElementById('app-root'),
+);
+```
+
 ### - \<Switch>
 
 Conditional rendering, but for several conditions. Simple implementation of javascript switch 
