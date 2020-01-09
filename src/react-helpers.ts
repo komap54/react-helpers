@@ -9,6 +9,7 @@ export * from './components/Iframe';
 export * from './components/Countdown';
 export * from './components/Freeze';
 export * from './components/If';
+export * from './components/Wrapper';
 export * from './components/Switch';
 export * from './components/Try';
 
