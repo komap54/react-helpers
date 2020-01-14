@@ -1,19 +1,14 @@
 import * as React from 'react';
 
-import { _, renderChildren } from '../../utils';
+import { _, renderChildren, Children } from '../../utils';
 
-type Children = (() => JSX.Element) | JSX.Element | JSX.Element[] | number | string | null;
-
-// tslint:disable-next-line: function-name
-export const Then: React.FC = ({ children }) => {
+export const Then = ({ children }: { children?: Children }) => {
   return (<>{renderChildren(children)}</>);
 };
-// tslint:disable-next-line: function-name
-export const Else: React.FC = ({ children }) => {
+export const Else = ({ children }: { children?: Children }) => {
   return (<>{renderChildren(children)}</>);
 };
 
-// tslint:disable-next-line: function-name
 export function If({
   condition,
   children,
@@ -32,7 +27,7 @@ export function If({
   if (typeof children === 'string'
     || typeof children === 'number'
     || typeof children === 'boolean'
-    || (!Array.isArray(children) && children.type !== (<Else />).type)
+    || (!Array.isArray(children) && (children as any).type !== (<Else />).type)
   ) {
     return _(condition) ? <>{children}</> : null;
   }
@@ -41,14 +36,14 @@ export function If({
   if (_(condition)) {
     return (
       <>
-        {options.filter(child => (child.type !== (<Else />).type)) || null}
+        {options.filter(child => ((child as any).type !== (<Else />).type)) || null}
       </>
     );
   }
 
   return (
     <>
-      {options.filter(child => (child.type !== (<Then />).type)) || null}
+      {options.filter(child => ((child as any).type !== (<Then />).type)) || null}
     </>
   );
 }

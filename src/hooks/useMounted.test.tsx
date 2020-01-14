@@ -8,9 +8,9 @@ import useMounted from './useMounted';
 describe('hook useMounted', () => {
   afterEach(cleanup);
   const Example = () => {
-    const mounted = useMounted();
+    const isMounted = useMounted();
 
-    return (<span>{mounted ? 'Mounted' : 'NotMounted'}</span>);
+    return (<span>{isMounted() ? 'Mounted' : 'NotMounted'}</span>);
   };
 
   test('should return change value after mount', (finish) => {

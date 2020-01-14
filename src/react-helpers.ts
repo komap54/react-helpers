@@ -4,6 +4,7 @@ import useMounted from './hooks/useMounted';
 import useRefFor from './hooks/useRefFor';
 import useRouter from './hooks/useRouter';
 import useThrottled from './hooks/useThrottled';
+import useDOMSpy from './hooks/useDOMSpy';
 
 export * from './components/Iframe';
 export * from './components/Countdown';
@@ -15,6 +16,7 @@ export * from './components/Try';
 
 export {
   wait,
+  useDOMSpy,
   useDebounced,
   useMounted,
   useRouter,

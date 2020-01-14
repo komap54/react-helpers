@@ -9,7 +9,7 @@ const Example = ({ start }: { start: number }) => {
 
   React.useEffect(
     () => {
-      const interval = setInterval(() => act(() => { setState(old => old + 1); }), 5);
+      const interval = setInterval(() => { setState(old => old + 1) }, 5);
       return () => clearInterval(interval);
     },
     [],
@@ -37,6 +37,6 @@ describe('Freeze component', () => {
     setTimeout(() => {
       expect(container.textContent).toBe('10');
       finish();
-    }, 300);
+    }, 1000);
   });
 });

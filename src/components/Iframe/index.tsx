@@ -3,6 +3,7 @@ import * as React from 'react';
 
 export type IframeProps = {
   src: string;
+  fit?: boolean;
   onMessage?: (event: MessageEvent) => void;
   onLoad?: () => void;
   onFail?: () => void;
@@ -11,13 +12,15 @@ export type IframeProps = {
 
 export interface IframeRefObject {
   amIIframe: () => boolean;
-  sendMessage: (message: string) => void;
+  sendMessage: (message: string, targetOrigin?: string) => void;
   onMessage: (listener: (event: MessageEvent) => void) => (() => void);
 };
 
 export const ParentProxy: IframeRefObject = {
   amIIframe: () => window !== window.top,
-  sendMessage: (message: string) => window.top.postMessage(message, document.referrer),
+  sendMessage: (message, targetOrigin = document.referrer) => {
+    return window.parent.postMessage(message, targetOrigin);
+  },
   onMessage: (listener: (event: MessageEvent) => void) => {
     const secureListener = (event: MessageEvent) => {
       if (event.origin === window.document.referrer) {
@@ -38,15 +41,17 @@ export const ParentProxy: IframeRefObject = {
   }
 };
 
-export const Iframe = React.forwardRef(({
-  src,
-  skipHeadCheck = false,
-  onMessage,
-  onLoad,
-  onFail,
-  ...other
-}: IframeProps,
-ref: React.Ref<IframeRefObject>,
+export const Iframe = React.forwardRef((
+  {
+    src,
+    fit = false,
+    skipHeadCheck = false,
+    onMessage,
+    onLoad,
+    onFail,
+    ...other
+  }: IframeProps,
+  ref: React.Ref<IframeRefObject>,
 ) => {
   const [canBeLoaded, setCanBeLoaded] = React.useState(false);
   const iframe = React.createRef<HTMLIFrameElement>();
@@ -117,6 +122,10 @@ ref: React.Ref<IframeRefObject>,
       iframe.current.onload = () => {
         if (onLoad) {
           onLoad();
+        }
+        if (fit && !!iframe.current && iframe.current.contentWindow) {
+          iframe.current.width = `${iframe.current.contentWindow.document.body.scrollWidth}`;
+          iframe.current.height = `${iframe.current.contentWindow.document.body.scrollHeight}`;
         }
       };
     }

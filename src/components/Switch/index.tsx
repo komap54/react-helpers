@@ -1,16 +1,15 @@
 import * as React from 'react';
 
-import { _, renderChildren } from '../../utils';
+import { _, renderChildren, Children } from '../../utils';
 
-type Children = JSX.Element | (string | JSX.Element)[] | number | string | null;
-
-export const Case: React.FC<{
+export const Case = ({ children }: {
   condition: (() => boolean) | boolean;
   break?: boolean;
-}> = ({ children }) => {
+  children?: Children;
+}) => {
   return (<>{renderChildren(children)}</>);
 };
-export const Default: React.FC = ({ children }) => {
+export const Default = ({ children }: { children: Children }) => {
   return (<>{renderChildren(children)}</>);
 };
 
@@ -18,7 +17,7 @@ export function Switch({
   children,
   multiple,
 }: {
-  children?: Children;
+  children?: React.ReactNode;
   multiple?: boolean;
 }) {
   if (!children || children === null) {
@@ -37,22 +36,31 @@ export function Switch({
 
   try {
     React.Children.forEach(children, (child) => {
-      if (typeof child === 'string') {
+      if (!child || child === null) {
+        results.push({
+          element: null,
+          type: 'always'
+        });
+      } else if (
+        typeof child === 'string'
+        || typeof child === 'number'
+        || typeof child === 'boolean'
+      ) {
         results.push({
           element: child,
           type: 'always'
         });
-      } else if (child.type === Case) {
-        if (_(child.props.condition)) {
+      } else if ((child as any).type === Case) {
+        if (_((child as any).props.condition)) {
           results.push({
             element: child,
             type: 'condition'
           });
         }
-        if (_(child.props.break)) {
+        if (_((child as any).props.break)) {
           throw (BreakException);
         }
-      } else if (child.type === Default) {
+      } else if ((child as any).type === Default) {
         results.push({
           element: child,
           type: 'default'

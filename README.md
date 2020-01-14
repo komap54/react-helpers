@@ -14,7 +14,7 @@ $ npm install @anissoft/react-helpers
 
 ### - \<If [condition] />
 
-Conditional renders in jsx format
+Conditional render in jsx format
 
 ```js
 import * as React from 'react';
@@ -94,7 +94,7 @@ import MainApp from 'Components/Main';
 import MobleViewWrapper from 'Components/Mobile';
 
 ...
-const wrapIn= (children) => {
+const wrapIn = (children) => {
   ...
   return <MobleViewWrapper>{children}</MobleViewWrapper>
 }
@@ -111,7 +111,7 @@ render(
 
 ### - \<Switch>
 
-Conditional rendering, but for several conditions. Simple implementation of javascript switch 
+Conditional render, but for several conditions. Simple implementation of javascript switch 
 
 ```js
 import * as React from 'react';
@@ -195,7 +195,7 @@ const Example = () => {
 
 ### - \<Freeze [enabled]>
 
-Stops rerender its children if ```enabled = true```
+Stops re-render its children if ```enabled = true```
 
 ```js
 import * as React from 'react';
@@ -336,16 +336,37 @@ import If from '@anissoft/react-helpers/components/If';
 import useMounted from '@anissoft/react-helpers/hooks/useMounted';
 
 export default () => {
-  const didMount = useMounted();
+  const isMounted = useMounted();
 
   return (
     <div>
       <If 
-        condition={didMount}
+        condition={isMounted()}
         then={() => <p>Component just renders</p>}
         else={() => <p>Component was rendered before</p>}
       />
     </div>
+  );
+}
+```
+
+Since version 2.0.0 useMounted returns function - that allows you to use it in async effects to check, if component still mounted and prevent memory leak
+
+```js
+export default () => {
+  const isMounted = useMounted();
+  const [state, setState] = React.useState(0);
+
+  React.useEffect(() => {
+    fetch('/some/api').then((res) => {
+      if (isMounted()) {
+        setState(res.ok);
+      }
+    })
+  }, [])
+
+  return (
+    <div>💣</div>
   );
 }
 ```
@@ -376,8 +397,3 @@ export default () => {
   );
 }
 ```
-
-### - useThrottle() - TBD: chnage to useThrottledState
-
-Returns throttled value;
-
