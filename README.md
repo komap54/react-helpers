@@ -373,7 +373,7 @@ export default () => {
 
 ### - useDOMSpy() - **BETA**
 
-Return Spy component and it's parent element. Spy component should be rendered inside target element. Allow use next eventListeners:
+Return Spy component and it's parent element. Spy component should be rendered inside target element. Allows use next eventListeners:
 
 - onResize
 - onMutation (TBD)
@@ -401,7 +401,8 @@ export default () => {
 }
 ```
 
-you can just pass onResize=true, if you want just rerender your component after resize
+you can pass onResize=true, if you want just rerender your component after resize
+> Note that you can create an infinity loop of rerender, if you content depends on element size
 
 ```js
 export default () => {

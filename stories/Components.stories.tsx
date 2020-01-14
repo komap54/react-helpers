@@ -39,9 +39,9 @@ stories.add('Iframe', () => {
           'http://localhost.testkontur.ru:3000/pages/upregistration/test?allfields&embedded',
         )}
         onMessage={(event) => {
-          const { status, message } = JSON.parse(event.data);
+          const { status, message: { width, height } } = JSON.parse(event.data);
           if (status === 'service') {
-            saveSize(message);
+            saveSize({ width, height });
           }
         }}
       />
