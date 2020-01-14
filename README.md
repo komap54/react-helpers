@@ -371,6 +371,51 @@ export default () => {
 }
 ```
 
+### - useDOMSpy() - **BETA**
+
+Return Spy component and it's parent element. Spy component should be rendered inside target element. Allow use next eventListeners:
+
+- onResize
+- onMutation (TBD)
+- onScroll (TBD)
+- onClick (TBD)
+
+```js
+import * as React from 'react';
+import useDOMSpy from '@anissoft/react-helpers/hooks/useDOMSpy';
+
+export default () => {
+  const [size, setSize] = React.useState({ width: 0, height })
+  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
+
+  return (
+    <div>
+    <DOMSpy 
+      onResize={({width, height}) => {
+        setSize({width, height});
+      }}
+    />
+    My width: {width} and height: {height}
+    </div>
+  );
+}
+```
+
+you can just pass onResize=true, if you want just rerender your component after resize
+
+```js
+export default () => {
+  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
+
+  return (
+    <div>
+    <DOMSpy onResize />
+    My width: {node.offsetWidth} and height: {node.offsetHeight}
+    </div>
+  );
+}
+```
+
 ### - useRefFor([React.Component])
 
 Returns enhanced component and ref for it;
@@ -385,7 +430,7 @@ export default () => {
 
   React.useEffect(
     () => {
-      console.log('You changed value in input!')
+      console.log('Value in input was changed since last render')
     },
     [ref.current.value],
   );
