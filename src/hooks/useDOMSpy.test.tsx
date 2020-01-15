@@ -8,16 +8,22 @@ describe('hook useEvent', () => {
 
   const Example = ({
     width,
+    direction,
     ...props
   }: {
+    direction?: string;
     width: number,
   } & SpyProps<HTMLDivElement>) => {
-    const [node, EventEmitter] = useEvent<HTMLDivElement>();
+    const [node, EventEmitter] = useEvent<HTMLDivElement>(direction as any);
     const ref = React.useRef(0);
     ref.current = ref.current + 1;
     return (
       <div style={{ width }}>
-        <EventEmitter {...props} />
+        <i>previous sibling_</i>
+        <EventEmitter {...props} >
+          <i>child_</i>
+        </EventEmitter>
+        <i>next sibling_</i>
         was rendered {ref.current}
       </div>
     );
@@ -39,7 +45,64 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    finish();
+  });
+
+  test('just works, with child as target', (finish) => {
+    const { container, rerender } = render(
+      <Example
+        direction="child"
+        width={300}
+        onResize
+        onMutation
+        onScroll
+        onBlur
+        onFocus
+        onClick
+        onMouseOver
+        onMouseOut
+      />
+    );
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    finish();
+  });
+
+  test('just works, with child as target', (finish) => {
+    const { container, rerender } = render(
+      <Example
+        direction="sibling-previous"
+        width={300}
+        onResize
+        onMutation
+        onScroll
+        onBlur
+        onFocus
+        onClick
+        onMouseOver
+        onMouseOut
+      />
+    );
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    finish();
+  });
+
+  test('just works, with child as target', (finish) => {
+    const { container, rerender } = render(
+      <Example
+        direction="sibling-next"
+        width={300}
+        onResize
+        onMutation
+        onScroll
+        onBlur
+        onFocus
+        onClick
+        onMouseOver
+        onMouseOut
+      />
+    );
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
     finish();
   });
 
@@ -57,15 +120,15 @@ describe('hook useEvent', () => {
         onMouseOut={(event) => console.log('mouseout', event)}
       />
     );
-    expect(container.textContent).toBe('was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
     finish();
   });
 
   test('should rerender if size changed', (finish) => {
     const { container, rerender } = render(<Example onResize width={300} />);
-    expect(container.textContent).toBe('was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
     rerender(<Example onResize width={400} />)
-    expect(container.textContent).toBe('was rendered 3');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 3');
     finish();
   });
 
@@ -75,9 +138,9 @@ describe('hook useEvent', () => {
     };
 
     const { container, rerender } = render(<Example onResize={onResize} width={30} />);
-    expect(container.textContent).toBe('was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
     rerender(<Example onResize={onResize} width={400} />)
-    expect(container.textContent).toBe('was rendered 3');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 3');
     finish();
   });
 });

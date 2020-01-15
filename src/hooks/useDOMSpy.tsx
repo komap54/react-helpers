@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, ComponentProps, PropsWithChildren } from 'react';
 import ResizeSensor, { ResizeSensorCallback } from 'css-element-queries/src/ResizeSensor';
 import useMounted from './useMounted';
 
@@ -13,14 +13,34 @@ export type SpyProps<T extends HTMLElement> = {
   onMouseOut?: boolean | ((event: Event) => void);
 };
 
-export default function <T extends HTMLElement>() {
-  const ref = useRef<HTMLSpanElement>(null);
+export default function <T extends HTMLElement>(
+  direction: 'parent' | 'child' | 'sibling-next' | 'sibling-previous' = 'parent'
+) {
+  const ref = useRef<HTMLElement>(null);
   const [, update] = React.useState(Symbol('__'));
   useMounted();
 
+  const getElement = () => {
+    if (!ref.current) {
+      return null;
+    }
+    switch (direction) {
+      case ('sibling-previous'):
+        return ref.current.previousElementSibling as T;
+      case ('sibling-next'):
+        return ref.current.nextElementSibling as T;
+      case ('child'):
+        return ref.current.firstElementChild as T;
+      case ('parent'):
+      default:
+        return ref.current.parentElement as T;
+    }
+  };
+
   return [
-    ref.current && ref.current.parentElement,
+    getElement(),
     React.useCallback(React.memo(function Spy({
+      children,
       onResize,
       onMutation,
       onScroll,
@@ -29,18 +49,18 @@ export default function <T extends HTMLElement>() {
       onBlur,
       onMouseOver,
       onMouseOut,
-    }: SpyProps<T>) {
-      // handle resize event
+      ...other
+    }: PropsWithChildren<SpyProps<T>>) {
       React.useEffect(() => {
-        if (!ref.current || typeof window !== 'undefined') {
+        if (!ref.current || typeof window === 'undefined') {
           return () => undefined;
         }
         const cleanUp: (() => void)[] = [];
-        const parent = ref.current.parentElement as T;
-
+        const element = getElement();
+        // console.log(element);
         if (onResize) {
           const sensor = new ResizeSensor(
-            parent,
+            element as T,
             typeof onResize === 'function' ? onResize : () => update(Symbol('__')),
           );
           cleanUp.push(() => {
@@ -57,7 +77,7 @@ export default function <T extends HTMLElement>() {
               : () => update(Symbol('__')),
           );
           /* istanbul ignore next */
-          observer.observe(parent, {
+          observer.observe(element as T, {
             attributes: true,
             childList: true,
             subtree: true,
@@ -81,10 +101,10 @@ export default function <T extends HTMLElement>() {
             const eventListener = typeof callback === 'function'
               ? callback as EventListener
               : () => update(Symbol('__'));
-            parent.addEventListener(event, eventListener);
+            (element as T).addEventListener(event, eventListener);
 
             cleanUp.push(() => {
-              parent.removeEventListener(event, eventListener);
+              (element as T).removeEventListener(event, eventListener);
             });
           }
         });
@@ -105,8 +125,8 @@ export default function <T extends HTMLElement>() {
       ]);
 
       return (
-        <i ref={ref} />
+        <i {...other} ref={ref}>{children}</i>
       );
     }), []),
-  ] as [T | null, (props: SpyProps<T>) => JSX.Element];
+  ] as [T | null, (props: PropsWithChildren<SpyProps<T>>) => JSX.Element];
 }; 

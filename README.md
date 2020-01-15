@@ -371,7 +371,7 @@ export default () => {
 }
 ```
 
-### - useDOMSpy() - **BETA**
+### - useDOMSpy(direction) - **BETA**
 
 Return Spy component and it's parent element. Spy component should be rendered inside target element. **Desn't work in SSR**. Allows to use next eventListeners:
 
@@ -395,6 +395,7 @@ export default () => {
   return (
     <div>
       <DOMSpy
+        direction=
         onMutation={(event) => console.log('mutation', event)}
         onScroll={(event) => console.log('scroll', event)}
         onBlur={(event) => console.log('blur', event)}
@@ -412,7 +413,7 @@ export default () => {
 }
 ```
 
-you can pass *onEvent*=true, if you want just rerender your component
+You can pass *onEvent*=true, if you want just rerender your component
 > Note that you can create an infinity loop of rerender, if you content depends on element size
 
 ```js
@@ -423,6 +424,23 @@ export default () => {
     <div>
       <DOMSpy onResize />
       My width: {node.offsetWidth} and height: {node.offsetHeight}
+    </div>
+  );
+}
+```
+
+Also, you can specify path to target component.
+
+```js
+export default () => {
+  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>('sibling-next');
+  
+  // node contain inside DOMElement with UnbelievableStupidComponent
+
+  return (
+    <div>
+      <DOMSpy onClick={() => console.log('Gotcha' )} />
+      <UnbelievableStupidComponent>
     </div>
   );
 }
