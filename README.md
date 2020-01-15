@@ -373,7 +373,7 @@ export default () => {
 
 ### - useDOMSpy(direction) - **BETA**
 
-Return Spy component and it's parent element. Spy component should be rendered inside target element. **Desn't work in SSR**. Allows to use next eventListeners:
+Return Spy component and target element (parentElement by default). **Desn't work in SSR**. Allows to use next eventListeners:
 
 - onResize
 - onMutation
@@ -435,12 +435,12 @@ Also, you can specify path to target component.
 export default () => {
   const [node, DOMSpy] = useDOMSpy<HTMLDivElement>('sibling-next');
   
-  // node contain inside DOMElement with UnbelievableStupidComponent
+  // node contains inside DOMElement with UnbelievableStupidComponent
 
   return (
     <div>
       <DOMSpy onClick={() => console.log('Gotcha' )} />
-      <UnbelievableStupidComponent>
+      <UnbelievableStupidComponent/>
     </div>
   );
 }
