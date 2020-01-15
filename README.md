@@ -373,12 +373,16 @@ export default () => {
 
 ### - useDOMSpy() - **BETA**
 
-Return Spy component and it's parent element. Spy component should be rendered inside target element. Allows use next eventListeners:
+Return Spy component and it's parent element. Spy component should be rendered inside target element. **Desn't work in SSR**. Allows to use next eventListeners:
 
 - onResize
-- onMutation (TBD)
-- onScroll (TBD)
-- onClick (TBD)
+- onMutation
+- onScroll
+- onClick
+- onFocus
+- onBlur
+- onMouseOver
+- onMouseOut
 
 ```js
 import * as React from 'react';
@@ -390,18 +394,25 @@ export default () => {
 
   return (
     <div>
-    <DOMSpy 
-      onResize={({width, height}) => {
-        setSize({width, height});
-      }}
-    />
-    My width: {width} and height: {height}
+      <DOMSpy
+        onMutation={(event) => console.log('mutation', event)}
+        onScroll={(event) => console.log('scroll', event)}
+        onBlur={(event) => console.log('blur', event)}
+        onFocus={(event) => console.log('focus', event)}
+        onClick={(event) => console.log('click', event)}
+        onMouseOver={(event) => console.log('hover', event)}
+        onMouseOut={(event) => console.log('mouseout', event)}
+        onResize={({width, height}) => {
+          setSize({width, height});
+        }}
+      />
+      My width: {width} and height: {height}
     </div>
   );
 }
 ```
 
-you can pass onResize=true, if you want just rerender your component after resize
+you can pass *onEvent*=true, if you want just rerender your component
 > Note that you can create an infinity loop of rerender, if you content depends on element size
 
 ```js
@@ -410,8 +421,8 @@ export default () => {
 
   return (
     <div>
-    <DOMSpy onResize />
-    My width: {node.offsetWidth} and height: {node.offsetHeight}
+      <DOMSpy onResize />
+      My width: {node.offsetWidth} and height: {node.offsetHeight}
     </div>
   );
 }

@@ -36,9 +36,16 @@ const Event = () => {
   const [node, EventEmitter] = useEvent<HTMLDivElement>();
   console.count('example event');
   return (
-    <div>
+    <div style={{ width: '100%', height: '200px', overflowY: 'scroll' }}>
       <EventEmitter
-        onResize={(event) => console.log(event)}
+        onResize={(event) => console.log('resize', event)}
+        onMutation={(event) => console.log('mutation', event)}
+        onScroll={(event) => console.log('scroll', event)}
+        onBlur={(event) => console.log('blur', event)}
+        onFocus={(event) => console.log('focus', event)}
+        onClick={(event) => console.log('click', event)}
+        onMouseOver={(event) => console.log('hover', event)}
+        onMouseOut={(event) => console.log('mouseout', event)}
       />
       {' '}
       {node && node.offsetWidth}
@@ -46,6 +53,7 @@ const Event = () => {
       {node && node.clientWidth}
       {' '}
       {node && node.scrollWidth}
+      <div style={{ width: '100%', height: '800px' }} />
     </div>
   );
 };
