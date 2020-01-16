@@ -108,7 +108,7 @@ export default function <T extends HTMLElement>(
             (element as T).addEventListener(event, eventListener, options);
 
             cleanUp.push(() => {
-              (element as T).removeEventListener(event, eventListener);
+              (element as T).removeEventListener(event, eventListener, options);
             });
           }
         });
