@@ -373,7 +373,7 @@ export default () => {
 
 ### - useDOMSpy(direction) - **BETA**
 
-Return Spy component and target element (parentElement by default). **Desn't work in SSR**. 
+Return Spy component and target element (parentElement by default). **Doesn't work in SSR**. 
 
 Allows to use next eventListeners:
 
