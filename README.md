@@ -373,7 +373,9 @@ export default () => {
 
 ### - useDOMSpy(direction) - **BETA**
 
-Return Spy component and target element (parentElement by default). **Desn't work in SSR**. Allows to use next eventListeners:
+Return Spy component and target element (parentElement by default). **Desn't work in SSR**. 
+
+Allows to use next eventListeners:
 
 - onResize
 - onMutation
@@ -392,10 +394,16 @@ export default () => {
   const [size, setSize] = React.useState({ width: 0, height })
   const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
 
+  React.useEffect(() => {
+    if(node) {
+      // Component was rendered, and now I have access to it\'s DOM element
+      console.log(node);
+    }
+  }, [node]);
+
   return (
     <div>
       <DOMSpy
-        direction=
         onMutation={(event) => console.log('mutation', event)}
         onScroll={(event) => console.log('scroll', event)}
         onBlur={(event) => console.log('blur', event)}
@@ -435,7 +443,7 @@ Also, you can specify path to target component.
 export default () => {
   const [node, DOMSpy] = useDOMSpy<HTMLDivElement>('sibling-next');
   
-  // node contains inside DOMElement with UnbelievableStupidComponent
+  // node contains inside DOMElement with rendered UnbelievableStupidComponent
 
   return (
     <div>

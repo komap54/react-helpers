@@ -57,7 +57,6 @@ export default function <T extends HTMLElement>(
         }
         const cleanUp: (() => void)[] = [];
         const element = getElement();
-        // console.log(element);
         if (onResize) {
           const sensor = new ResizeSensor(
             element as T,
