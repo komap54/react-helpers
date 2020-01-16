@@ -404,11 +404,13 @@ export default () => {
   return (
     <div>
       <DOMSpy
+        component="div"
         onMutation={(event) => console.log('mutation', event)}
         onScroll={(event) => console.log('scroll', event)}
         onBlur={(event) => console.log('blur', event)}
         onFocus={(event) => console.log('focus', event)}
         onClick={(event) => console.log('click', event)}
+        onClickCapture={(event) => console.log('click-capture', event)}
         onMouseOver={(event) => console.log('hover', event)}
         onMouseOut={(event) => console.log('mouseout', event)}
         onResize={({width, height}) => {

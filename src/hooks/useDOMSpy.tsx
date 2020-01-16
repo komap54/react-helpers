@@ -1,12 +1,14 @@
-import React, { useRef, ComponentProps, PropsWithChildren } from 'react';
+import React, { useRef, PropsWithChildren } from 'react';
 import ResizeSensor, { ResizeSensorCallback } from 'css-element-queries/src/ResizeSensor';
 import useMounted from './useMounted';
 
-export type SpyProps<T extends HTMLElement> = {
+export type SpyProps = {
+  component?: React.ComponentType<any> | string;
   onResize?: boolean | ResizeSensorCallback;
   onMutation?: boolean | MutationCallback;
   onScroll?: boolean | ((event: Event) => void);
   onClick?: boolean | ((event: Event) => void);
+  onClickCapture?: boolean | ((event: Event) => void);
   onFocus?: boolean | ((event: Event) => void);
   onBlur?: boolean | ((event: Event) => void);
   onMouseOver?: boolean | ((event: Event) => void);
@@ -40,17 +42,19 @@ export default function <T extends HTMLElement>(
   return [
     getElement(),
     React.useCallback(React.memo(function Spy({
+      component: Component = 'i',
       children,
       onResize,
       onMutation,
       onScroll,
       onClick,
+      onClickCapture,
       onFocus,
       onBlur,
       onMouseOver,
       onMouseOut,
       ...other
-    }: PropsWithChildren<SpyProps<T>>) {
+    }: PropsWithChildren<SpyProps>) {
       React.useEffect(() => {
         if (!ref.current || typeof window === 'undefined') {
           return () => undefined;
@@ -91,16 +95,17 @@ export default function <T extends HTMLElement>(
         [
           { event: 'scroll', callback: onScroll },
           { event: 'click', callback: onClick },
+          { event: 'click', callback: onClickCapture, options: true },
           { event: 'blur', callback: onBlur },
           { event: 'focus', callback: onFocus },
           { event: 'mouseover', callback: onMouseOver },
           { event: 'mouseout', callback: onMouseOut },
-        ].forEach(({ event, callback }) => {
+        ].forEach(({ event, callback, options }) => {
           if (callback) {
             const eventListener = typeof callback === 'function'
               ? callback as EventListener
               : () => update(Symbol('__'));
-            (element as T).addEventListener(event, eventListener);
+            (element as T).addEventListener(event, eventListener, options);
 
             cleanUp.push(() => {
               (element as T).removeEventListener(event, eventListener);
@@ -124,8 +129,8 @@ export default function <T extends HTMLElement>(
       ]);
 
       return (
-        <i {...other} ref={ref}>{children}</i>
+        <Component {...other} ref={ref}>{children}</Component>
       );
     }), []),
-  ] as [T | null, (props: PropsWithChildren<SpyProps<T>>) => JSX.Element];
+  ] as [T | null, (props: PropsWithChildren<SpyProps>) => JSX.Element];
 }; 

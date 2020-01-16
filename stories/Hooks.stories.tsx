@@ -33,18 +33,20 @@ const Throttled = () => {
 };
 
 const Event = () => {
-  const [node, EventEmitter] = useEvent<HTMLDivElement>('sibling-next');
+  const [node, EventEmitter] = useEvent<HTMLDivElement>('child');
   console.log(node);
   return (
     <div style={{ width: '100%', height: '200px', overflowY: 'scroll' }}>
       <div>previous sibling</div>
       <EventEmitter
+        component='i'
         onResize={(event) => console.log('resize', event)}
         onMutation={(event) => console.log('mutation', event)}
         onScroll={(event) => console.log('scroll', event)}
         onBlur={(event) => console.log('blur', event)}
         onFocus={(event) => console.log('focus', event)}
         onClick={(event) => console.log('click', event)}
+        onClickCapture={(event) => console.log('click-capture', event)}
         onMouseOver={(event) => console.log('hover', event)}
         onMouseOut={(event) => console.log('mouseout', event)}
       >

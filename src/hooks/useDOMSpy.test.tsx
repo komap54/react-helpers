@@ -13,7 +13,7 @@ describe('hook useEvent', () => {
   }: {
     direction?: string;
     width: number,
-  } & SpyProps<HTMLDivElement>) => {
+  } & SpyProps) => {
     const [node, EventEmitter] = useEvent<HTMLDivElement>(direction as any);
     const ref = React.useRef(0);
     ref.current = ref.current + 1;
