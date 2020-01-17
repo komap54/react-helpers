@@ -381,6 +381,7 @@ Allows to use next eventListeners:
 - onMutation
 - onScroll
 - onClick
+- onClickCapture
 - onFocus
 - onBlur
 - onMouseOver

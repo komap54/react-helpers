@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
-import useEvent, { SpyProps } from './useDOMSpy';
-import { ResizeSensorCallback } from 'css-element-queries/src/ResizeSensor';
+import useEvent from './useDOMSpy';
+import { EventProxyProps } from '../components/EventProxy';
 
 describe('hook useEvent', () => {
   afterEach(cleanup);
@@ -13,7 +13,7 @@ describe('hook useEvent', () => {
   }: {
     direction?: string;
     width: number,
-  } & SpyProps) => {
+  } & EventProxyProps) => {
     const [node, EventEmitter] = useEvent<HTMLDivElement>(direction as any);
     const ref = React.useRef(0);
     ref.current = ref.current + 1;

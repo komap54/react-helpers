@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import React from 'react';
 import { text, boolean, withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { If, Then, Else } from '../src/components/If';
 import { Iframe } from '../src/components/Iframe';
+import { EventProxy } from '../src/components/EventProxy';
 
 const stories = storiesOf('Components', module);
 stories.addDecorator(withKnobs({ escapeHTML: false }));
@@ -11,11 +15,11 @@ const Children = () => {
   const counter = React.useRef(0);
   counter.current += 1;
   return (
-    <span>
+    <div role="button" onClick={(event) => event.stopPropagation()}>
       I was rendered&nbsp;
       {counter.current}
       &nbsp;times
-    </span>
+    </div>
   );
 };
 
@@ -24,6 +28,19 @@ stories.add('If', () => (
     <If condition={boolean('condition', true)}>
       <Children />
     </If>
+  </div>
+));
+
+stories.add('EventProxy', () => (
+  <div>
+    <EventProxy
+      onClick
+      onClickCapture={(event) => console.log('click-capture', event)}
+      onMouseOver={(event) => console.log('hover', event)}
+      onMouseOut={(event) => console.log('mouseout', event)}
+    >
+      <Children />
+    </EventProxy>
   </div>
 ));
 

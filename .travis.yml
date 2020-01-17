@@ -3,6 +3,17 @@ node_js:
   - "10"
 jobs:
   include:
+    - stage: npm release beta
+      node_js: "8"
+      script: npm install && npm run build
+      deploy:
+        provider: npm
+        email: anissoftkun@gmail.com
+        api_key: $NPMJS_ACCESS_TOKEN
+        script: "npm version prerelease --preid=beta && npm run build && cp .template.npmrc $HOME/.npmrc && npm publish --tag beta"
+        skip_cleanup: true
+        on:
+          branch: development
     - stage: npm release
       node_js: "8"
       script: npm install && npm run build
@@ -10,7 +21,7 @@ jobs:
         provider: npm
         email: anissoftkun@gmail.com
         api_key: $NPMJS_ACCESS_TOKEN
-        script: "npm run build && cp .template.npmrc $HOME/.npmrc && npm publish"
+        script: "npm version patch && npm run build && cp .template.npmrc $HOME/.npmrc && npm publish"
         skip_cleanup: true
         on:
           branch: master
