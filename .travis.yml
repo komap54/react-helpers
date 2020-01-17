@@ -1,33 +1,26 @@
 language: node_js
 node_js:
   - "10"
+stages:
+  - prepare
+  - build
+  - test
+  - publish
 jobs:
   include:
-    - stage: npm release beta
-      node_js: "8"
-      script: npm install && npm run build
-      deploy:
-        provider: npm
-        email: anissoftkun@gmail.com
-        api_key: $NPMJS_ACCESS_TOKEN
-        script: "npm version prerelease --preid=beta && npm run build && cp .template.npmrc $HOME/.npmrc && npm publish --tag beta"
-        skip_cleanup: true
-        on:
-          branch: development
-    - stage: npm release
-      node_js: "8"
-      script: npm install && npm run build
-      deploy:
-        provider: npm
-        email: anissoftkun@gmail.com
-        api_key: $NPMJS_ACCESS_TOKEN
-        script: "npm version patch && npm run build && cp .template.npmrc $HOME/.npmrc && npm publish"
-        skip_cleanup: true
-        on:
-          branch: master
-notifications:
-  email:
-    recipients:
-    - anissoftkun@gmail.com
-    on_success: change
-    on_failure: always
+  - stage: prepare
+    script: npm version prerelease --preid=beta && cp .template.npmrc $HOME/.npmrc
+    if: branch = development
+  - stage: prepare
+    script: npm version patch && cp .template.npmrc $HOME/.npmrc
+    if: branch = master
+  - stage: build
+    script: npm install && npm run build
+  - stage: test
+    script: npm run test
+  - stage: publish
+    script: npm publish --tag beta
+    if: branch = development
+  - stage: publish
+    script: npm publish --tag beta
+    if: branch = master
