@@ -1,19 +1,20 @@
 import * as React from 'react';
 
 export class Try extends React.Component<
-  {
-    onCatch?: (error: Error) => React.ReactNode;
-    silent?: boolean;
-  }, {
-    error: Error | null;
-    silent: boolean;
-  }> {
+{
+  onCatch?: (error: Error) => React.ReactNode;
+  silent?: boolean;
+}, {
+  error: Error | null;
+  silent: boolean;
+}> {
   constructor(props: React.PropsWithChildren<{ silent?: boolean }>) {
     super(props);
     this.state = {
       error: null,
-      silent: props.silent !== false ? true : false
-    }
+      // eslint-disable-next-line react/no-unused-state
+      silent: props.silent !== false
+    };
   }
 
   static getDerivedStateFromError(error: Error) {
@@ -22,7 +23,8 @@ export class Try extends React.Component<
   }
 
   componentDidCatch(error: Error, info: any) {
-    if (!this.props.silent) {
+    const { silent } = this.props;
+    if (!silent) {
       console.warn(error);
       console.warn(info);
     }
@@ -32,13 +34,15 @@ export class Try extends React.Component<
   }
 
   render() {
-    if (this.state.error) {
-      if (this.props.onCatch) {
-        return this.props.onCatch(this.state.error);
+    const { error } = this.state;
+    const { onCatch, children } = this.props;
+    if (error) {
+      if (onCatch) {
+        return onCatch(error);
       }
       return null;
     }
-    return this.props.children;
+    return children;
   }
 }
 

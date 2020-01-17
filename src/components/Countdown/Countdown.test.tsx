@@ -1,11 +1,27 @@
 import * as React from 'react';
+import "regenerator-runtime/runtime";
 
 import { act, cleanup, render } from '@testing-library/react';
 
-import Countdown from './';
+import Countdown from '.';
+
+const originalError = console.error;
 
 describe('Countdown component', () => {
+  beforeAll(() => {
+    console.error = (...args: any[]) => {
+      if (/Warning.*not wrapped in act/.test(args[0])) {
+        return
+      }
+      originalError.call(console, ...args)
+    }
+  })
+
   afterEach(cleanup);
+
+  afterAll(() => {
+    console.error = originalError
+  })
 
   test('Should render countdown', async (end) => {
     const { container, } = render(<Countdown seconds={4} format="m:s" locale="en" />);
@@ -95,7 +111,7 @@ describe('Countdown component', () => {
     expect(container.textContent).toBe('00:04');
     const { container: container2 } = render(<Countdown seconds={630} format="m:s" />);
     expect(container2.textContent).toBe('10:30');
-    end()
+    end();
   });
 
   test('Should execute callback at the end', async (end) => {
@@ -104,7 +120,7 @@ describe('Countdown component', () => {
     expect(container.textContent).toBe('00:04');
     await new Promise((res) => setTimeout(() => res(), 4000));
     expect(onExpire).toBeCalled();
-    end()
+    end();
   });
 
   // test('Should stops update children when enabled === true', (finish) => {

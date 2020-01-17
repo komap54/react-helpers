@@ -11,8 +11,8 @@ compiled
 .rpt2_cache
 docs
 /components
-hooks
-helpers
+/hooks
+/helpers
 /*.js
 /*.ts
 /*.js.map

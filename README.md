@@ -14,7 +14,7 @@ $ npm install @anissoft/react-helpers
 
 ### - \<If [condition] />
 
-Conditional renders in jsx format
+Conditional render in jsx format
 
 ```js
 import * as React from 'react';
@@ -58,9 +58,60 @@ Then and Else can receive a callbacks as children - that allows you to safely us
 }
 ```
 
+
+### - \<Wrapper [condition] />
+
+Conditional render like in <If />, but this time for wrapper component
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Wrapper } from '@anissoft/react-helpers/components/Wrapper'
+
+import MainApp from 'Components/Main';
+import MobleViewWrapper from 'Components/Mobile';
+
+...
+
+render(
+  <div>
+    <Wrapper condition={isMobile} wrapper={MobleViewWrapper}>
+      <MainApp/>
+    </Wrapper>
+  </div>,
+  document.getElementById('app-root'),
+);
+```
+
+also, can be used with function `wrap` as wrapper
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Wrapper } from '@anissoft/react-helpers/components/Wrapper'
+
+import MainApp from 'Components/Main';
+import MobleViewWrapper from 'Components/Mobile';
+
+...
+const wrapIn = (children) => {
+  ...
+  return <MobleViewWrapper>{children}</MobleViewWrapper>
+}
+
+render(
+  <div>
+    <Wrapper condition={isMobile} wrap={wrapIn}>
+      <MainApp/>
+    </Wrapper>
+  </div>,
+  document.getElementById('app-root'),
+);
+```
+
 ### - \<Switch>
 
-Conditional rendering, but for several conditions. Simple implementation of javascript switch 
+Conditional render, but for several conditions. Simple implementation of javascript switch 
 
 ```js
 import * as React from 'react';
@@ -144,7 +195,7 @@ const Example = () => {
 
 ### - \<Freeze [enabled]>
 
-Stops rerender its children if ```enabled = true```
+Stops re-render its children if ```enabled = true```
 
 ```js
 import * as React from 'react';
@@ -285,15 +336,121 @@ import If from '@anissoft/react-helpers/components/If';
 import useMounted from '@anissoft/react-helpers/hooks/useMounted';
 
 export default () => {
-  const didMount = useMounted();
+  const isMounted = useMounted();
 
   return (
     <div>
       <If 
-        condition={didMount}
+        condition={isMounted()}
         then={() => <p>Component just renders</p>}
         else={() => <p>Component was rendered before</p>}
       />
+    </div>
+  );
+}
+```
+
+Since version 2.0.0 useMounted returns function - that allows you to use it in async effects to check, if component still mounted and prevent memory leak
+
+```js
+export default () => {
+  const isMounted = useMounted();
+  const [state, setState] = React.useState(0);
+
+  React.useEffect(() => {
+    fetch('/some/api').then((res) => {
+      if (isMounted()) {
+        setState(res.ok);
+      }
+    })
+  }, [])
+
+  return (
+    <div>💣</div>
+  );
+}
+```
+
+### - useDOMSpy(direction) - **BETA**
+
+Return Spy component and target element (parentElement by default). **Doesn't work in SSR**. 
+
+Allows to use next eventListeners:
+
+- onResize
+- onMutation
+- onScroll
+- onClick
+- onFocus
+- onBlur
+- onMouseOver
+- onMouseOut
+
+```js
+import * as React from 'react';
+import useDOMSpy from '@anissoft/react-helpers/hooks/useDOMSpy';
+
+export default () => {
+  const [size, setSize] = React.useState({ width: 0, height })
+  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
+
+  React.useEffect(() => {
+    if(node) {
+      // Component was rendered, and now I have access to it\'s DOM element
+      console.log(node);
+    }
+  }, [node]);
+
+  return (
+    <div>
+      <DOMSpy
+        component="div"
+        onMutation={(event) => console.log('mutation', event)}
+        onScroll={(event) => console.log('scroll', event)}
+        onBlur={(event) => console.log('blur', event)}
+        onFocus={(event) => console.log('focus', event)}
+        onClick={(event) => console.log('click', event)}
+        onClickCapture={(event) => console.log('click-capture', event)}
+        onMouseOver={(event) => console.log('hover', event)}
+        onMouseOut={(event) => console.log('mouseout', event)}
+        onResize={({width, height}) => {
+          setSize({width, height});
+        }}
+      />
+      My width: {width} and height: {height}
+    </div>
+  );
+}
+```
+
+You can pass *onEvent*=true, if you want just rerender your component
+> Note that you can create an infinity loop of rerender, if you content depends on element size
+
+```js
+export default () => {
+  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
+
+  return (
+    <div>
+      <DOMSpy onResize />
+      My width: {node.offsetWidth} and height: {node.offsetHeight}
+    </div>
+  );
+}
+```
+
+Also, you can specify path to target component.
+
+```js
+export default () => {
+  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>('sibling-next');
+  
+  // node contains inside DOMElement with rendered UnbelievableStupidComponent
+
+  return (
+    <div>
+      <DOMSpy onClick={() => console.log('Gotcha' )} />
+      <UnbelievableStupidComponent/>
     </div>
   );
 }
@@ -313,7 +470,7 @@ export default () => {
 
   React.useEffect(
     () => {
-      console.log('You changed value in input!')
+      console.log('Value in input was changed since last render')
     },
     [ref.current.value],
   );
@@ -325,8 +482,3 @@ export default () => {
   );
 }
 ```
-
-### - useThrottle() - TBD: chnage to useThrottledState
-
-Returns throttled value;
-

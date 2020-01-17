@@ -1,27 +1,30 @@
-import { Dispatch, useEffect, useRef, useState } from 'react';
+import { Dispatch, useEffect, useRef, useState, useCallback } from 'react';
 
-export default function useThrottled<T1>(initialValue: T1, limit: number) {
-  const [value, setvalue] = useState(initialValue);
+export default function useThrottled<T1>(initialValue: T1, delay: number) {
+  const timeouts = useRef<number[]>([]);
   const [throttledValue, setThrottledValue] = useState(initialValue);
   const lastRan = useRef(Date.now());
-  const timeLeft = Date.now() - lastRan.current;
 
-  useEffect(
-    () => {
-      const handler = setTimeout(
-        () => {
-          setThrottledValue(value);
-          lastRan.current = Date.now();
-        },
-        limit - (Date.now() - lastRan.current),
-      );
+  const setValue = useCallback((candidate) => {
+    const timeLeft = delay - (Date.now() - lastRan.current);
+    if (timeLeft <= 0) {
+      setThrottledValue(candidate);
+      lastRan.current = Date.now();
+    } else {
+      timeouts.current.push(setTimeout(
+        () => setValue(candidate),
+        timeLeft,
+      ) as unknown as number);
+    }
+  }, [delay]);
 
-      return () => {
-        clearTimeout(handler);
-      };
-    },
-    [value, timeLeft],
-  );
+  useEffect(() => () => {
+    timeouts.current.forEach(timeout => clearTimeout(timeout));
+  }, []);
 
-  return [throttledValue, setvalue] as [T1, Dispatch<React.SetStateAction<T1>>];
+  return [
+    throttledValue,
+    setValue,
+  ] as [T1, React.Dispatch<React.SetStateAction<T1>>];
+
 };

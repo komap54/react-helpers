@@ -8,26 +8,27 @@ import useRouter, { Context } from './useRouter';
 
 describe('hook useRouter', () => {
   afterEach(cleanup);
-  const Example: React.FunctionComponent = ({ children }) => (<MemoryRouter>{children}</MemoryRouter>)
+  const Example: React.FunctionComponent = ({ children }) => (<MemoryRouter>{children}</MemoryRouter>);
   const HookOmmit = ({ test }: { test?: (context: Context) => void }) => {
     const result = useRouter();
     test && test(result);
     return (<button onClick={() => result.history.push('/test')}>{result.location.pathname}</button>);
-  }
+  };
   test('should return location, history and match', () => {
     const { container } = render(
-      <Example >
+      <Example>
         <HookOmmit test={({ match, history, location }) => {
           expect(match).toBeDefined();
           expect(history).toBeDefined();
           expect(location).toBeDefined();
-        }} />
+        }}
+        />
       </Example>
     );
   });
   test('should return location, history and match', (finish) => {
     const { container } = render(
-      <Example >
+      <Example>
         <HookOmmit />
       </Example>
     );

@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+export type Children = (() => React.ReactNode) | React.ReactNode;
+
 // tslint:disable-next-line: function-name
 export function _<T1>(arg: (() => T1) | T1) {
   if (typeof arg === 'function') {
