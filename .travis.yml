@@ -2,25 +2,15 @@ language: node_js
 node_js:
   - "10"
 stages:
-  - prepare
-  - build
   - test
   - publish
 jobs:
   include:
-  - stage: prepare
-    script: npm version prerelease --preid=beta && cp .template.npmrc $HOME/.npmrc
-    if: branch = development
-  - stage: prepare
-    script: npm version patch && cp .template.npmrc $HOME/.npmrc
-    if: branch = master
-  - stage: build
-    script: npm install && npm run build
   - stage: test
     script: npm run test
   - stage: publish
-    script: npm publish --tag beta
+    script: npm version prerelease --preid=beta && cp .template.npmrc $HOME/.npmrc && npm run build && npm publish --tag beta
     if: branch = development
   - stage: publish
-    script: npm publish --tag beta
+    script: npm version patch && cp .template.npmrc $HOME/.npmrc && npm run build && npm publish --tag beta
     if: branch = master
