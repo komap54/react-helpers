@@ -58,6 +58,47 @@ Then and Else can receive a callbacks as children - that allows you to safely us
 }
 ```
 
+### - \<Memo [deps]>
+
+Update it's children only if deps was changed
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import Memo from '@anissoft/react-helpers/components/Memo'
+
+...
+
+const Example = () => {
+  const [state1, setState1] = React.useState(0);
+  const [state2, setState2] = React.useState(0);
+
+  React.useEffect(
+    () => {
+      const interval = setInterval(() => {
+        setState2(old => old + 1);
+      }, 100);
+      return () => {
+        clearInterval(interval);
+      };
+    },
+    [],
+  );
+
+  return (
+    <div>
+      <Memo deps={[state1]}>
+        <span>
+          {state2}
+          &nbsp;
+        </span>
+        <span>This value doesn&apos;t change, until you press &nbsp;</span>
+        <button role="button" onClick={() => setState1(v => v + 1)}>Increment</button>
+      </Memo>
+    </div>
+  );
+};
+```
 
 ### - \<Wrapper [condition] />
 
@@ -224,6 +265,78 @@ const Example = () => {
 };
 ```
 
+### - \<EventProxy [direction]>
+
+Just render this component inside DOM, set direction to target DOM element and track any of listed below events on this element.
+
+- onResize
+- onMutation
+- onScroll
+- onClick
+- onClickCapture
+- onFocus
+- onBlur
+- onMouseOver
+- onMouseOut
+
+```js
+import * as React from 'react';
+import { render } from 'react-dom';
+import EventProxy from '@anissoft/react-helpers/components/EventProxy'
+
+...
+
+const Example = () => {
+  return (
+    <div>
+      <EventProxy
+        direction="child"
+        component="i"
+        onResize={(event) => console.log('resize', event)}
+        onMutation={(event) => console.log('mutation', event)}
+        onScroll={(event) => console.log('scroll', event)}
+        onBlur={(event) => console.log('blur', event)}
+        onFocus={(event) => console.log('focus', event)}
+        onClick={(event) => console.log('click', event)}
+        onClickCapture={(event) => console.log('click-capture', event)}
+        onMouseOver={(event) => console.log('hover', event)}
+        onMouseOut={(event) => console.log('mouseout', event)}
+      >
+        <span>Target child</span>
+      </EventProxy>
+    </div>
+  )
+};
+```
+
+You can pass *onEvent*=true, if you want just rerender your component
+> Note that you can create an infinity loop of rerender, if you content depends on element size
+
+```js
+export default () => {
+  return (
+    <div>
+      <EventProxy direction="parent" onResize />
+      My width: {node.offsetWidth} and height: {node.offsetHeight}
+    </div>
+  );
+}
+```
+
+Also, you can specify path to target component with query selector string.
+
+```js
+export default () => {
+  return (
+    <div>
+      <EventProxy direction="span > .class" onClick={() => console.log('Gotcha' )}>
+        <UnbelievableStupidComponent/>
+      </EventProxy>
+    </div>
+  );
+}
+```
+
 ### - \<Countdown [enabled]>
 
 Shows coundown in minutes or/and seconds. Supports locales `"en"` and `"ru"`
@@ -367,92 +480,6 @@ export default () => {
 
   return (
     <div>💣</div>
-  );
-}
-```
-
-### - useDOMSpy(direction) - **BETA**
-
-Return Spy component and target element (parentElement by default). **Doesn't work in SSR**. 
-
-Allows to use next eventListeners:
-
-- onResize
-- onMutation
-- onScroll
-- onClick
-- onClickCapture
-- onFocus
-- onBlur
-- onMouseOver
-- onMouseOut
-
-```js
-import * as React from 'react';
-import useDOMSpy from '@anissoft/react-helpers/hooks/useDOMSpy';
-
-export default () => {
-  const [size, setSize] = React.useState({ width: 0, height })
-  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
-
-  React.useEffect(() => {
-    if(node) {
-      // Component was rendered, and now I have access to it\'s DOM element
-      console.log(node);
-    }
-  }, [node]);
-
-  return (
-    <div>
-      <DOMSpy
-        component="div"
-        onMutation={(event) => console.log('mutation', event)}
-        onScroll={(event) => console.log('scroll', event)}
-        onBlur={(event) => console.log('blur', event)}
-        onFocus={(event) => console.log('focus', event)}
-        onClick={(event) => console.log('click', event)}
-        onClickCapture={(event) => console.log('click-capture', event)}
-        onMouseOver={(event) => console.log('hover', event)}
-        onMouseOut={(event) => console.log('mouseout', event)}
-        onResize={({width, height}) => {
-          setSize({width, height});
-        }}
-      />
-      My width: {width} and height: {height}
-    </div>
-  );
-}
-```
-
-You can pass *onEvent*=true, if you want just rerender your component
-> Note that you can create an infinity loop of rerender, if you content depends on element size
-
-```js
-export default () => {
-  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>();
-
-  return (
-    <div>
-      <DOMSpy onResize />
-      My width: {node.offsetWidth} and height: {node.offsetHeight}
-    </div>
-  );
-}
-```
-
-Also, you can specify path to target component.
-
-```js
-export default () => {
-  const [node, DOMSpy] = useDOMSpy<HTMLDivElement>('sibling-next');
-  
-  // node contains inside DOMElement with rendered UnbelievableStupidComponent
-
-  return (
-    <div>
-      <DOMSpy onClick={() => console.log('Gotcha' )} />
-      <UnbelievableStupidComponent/>
-    </div>
   );
 }
 ```

@@ -4,7 +4,7 @@ import useMounted from '../../hooks/useMounted';
 
 export type EventProxyProps = {
   component?: React.ComponentType<any> | string;
-  direction?: 'parent' | 'child' | 'sibling-next' | 'sibling-previous';
+  direction: 'parent' | 'child' | 'sibling-next' | 'sibling-previous' | string;
   onResize?: boolean | ResizeSensorCallback;
   onMutation?: boolean | MutationCallback;
   onScroll?: boolean | ((event: Event) => void);
@@ -28,8 +28,9 @@ export function getElement<T extends HTMLElement>(ref: HTMLElement | null, direc
     case ('child'):
       return ref.firstElementChild as T;
     case ('parent'):
-    default:
       return ref.parentElement as T;
+    default:
+      return ref.querySelector(direction as string) as T;
   }
 };
 

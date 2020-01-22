@@ -3,7 +3,7 @@ import useMounted from './useMounted';
 import { getElement, EventProxy, EventProxyProps } from '../components/EventProxy';
 
 export default function <T extends HTMLElement>(
-  direction: 'parent' | 'child' | 'sibling-next' | 'sibling-previous' = 'parent'
+  direction = 'parent'
 ) {
   const ref = useRef<HTMLElement>(null);
   const [, update] = React.useState(Symbol('__'));
@@ -28,5 +28,5 @@ export default function <T extends HTMLElement>(
         />
       );
     }), []),
-  ] as [T | null, (props: PropsWithChildren<EventProxyProps>) => JSX.Element];
+  ] as [T | null, (props: PropsWithChildren<Partial<EventProxyProps>>) => JSX.Element];
 }; 

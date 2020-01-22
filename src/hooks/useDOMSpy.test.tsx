@@ -13,7 +13,7 @@ describe('hook useEvent', () => {
   }: {
     direction?: string;
     width: number,
-  } & EventProxyProps) => {
+  } & Partial<EventProxyProps>) => {
     const [node, EventEmitter] = useEvent<HTMLDivElement>(direction as any);
     const ref = React.useRef(0);
     ref.current = ref.current + 1;
@@ -68,7 +68,7 @@ describe('hook useEvent', () => {
     finish();
   });
 
-  test('just works, with child as target', (finish) => {
+  test('just works, with sibling-previous as target', (finish) => {
     const { container, rerender } = render(
       <Example
         direction="sibling-previous"
@@ -87,10 +87,48 @@ describe('hook useEvent', () => {
     finish();
   });
 
-  test('just works, with child as target', (finish) => {
+  test('just works, with sibling-next as target', (finish) => {
     const { container, rerender } = render(
       <Example
         direction="sibling-next"
+        width={300}
+        onResize
+        onMutation
+        onScroll
+        onBlur
+        onFocus
+        onClick
+        onMouseOver
+        onMouseOut
+      />
+    );
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    finish();
+  });
+
+  test('just works, with parent as target', (finish) => {
+    const { container, rerender } = render(
+      <Example
+        direction="parent"
+        width={300}
+        onResize
+        onMutation
+        onScroll
+        onBlur
+        onFocus
+        onClick
+        onMouseOver
+        onMouseOut
+      />
+    );
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    finish();
+  });
+
+  test('just works, with selector as target', (finish) => {
+    const { container, rerender } = render(
+      <Example
+        direction="i"
         width={300}
         onResize
         onMutation

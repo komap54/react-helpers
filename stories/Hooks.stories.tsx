@@ -1,6 +1,7 @@
 import React from 'react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import useDebounced from '../src/hooks/useDebounced';
 import useEvent from '../src/hooks/useDOMSpy';
 import useThrottled from '../src/hooks/useThrottled';
@@ -34,21 +35,20 @@ const Throttled = () => {
 
 const Event = () => {
   const [node, EventEmitter] = useEvent<HTMLDivElement>('child');
-  console.log(node);
   return (
     <div style={{ width: '100%', height: '200px', overflowY: 'scroll' }}>
       <div>previous sibling</div>
       <EventEmitter
+        direction="sibling-next"
         component='i'
-        onResize={(event) => console.log('resize', event)}
-        onMutation={(event) => console.log('mutation', event)}
-        onScroll={(event) => console.log('scroll', event)}
-        onBlur={(event) => console.log('blur', event)}
-        onFocus={(event) => console.log('focus', event)}
-        onClick={(event) => console.log('click', event)}
-        onClickCapture={(event) => console.log('click-capture', event)}
-        onMouseOver={(event) => console.log('hover', event)}
-        onMouseOut={(event) => console.log('mouseout', event)}
+        onClickCapture={action('click-capture')}
+        onMouseOver={action('mouse-in')}
+        onMouseOut={action('mouse-out')}
+        onResize={action('resize')}
+        onMutation={action('mutation')}
+        onScroll={action('scroll')}
+        onBlur={action('blur')}
+        onFocus={action('focus')}
       >
         <div>child</div>
       </EventEmitter>
