@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { act, cleanup, render } from '@testing-library/react';
 
-import Memo from '.';
+import Memo from './';
 
 const Example = ({ start }: { start: number }) => {
   const [state1, setState1] = React.useState(start);

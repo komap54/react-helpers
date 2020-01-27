@@ -2,14 +2,18 @@ import React from 'react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { useState } from '@storybook/addons';
+import wait from '../src/helpers/Wait';
 import useDebounced from '../src/hooks/useDebounced';
 import useEvent from '../src/hooks/useDOMSpy';
 import useThrottled from '../src/hooks/useThrottled';
+import useAsyncEffect from '../src/hooks/useAsyncEffect';
+import { useQueryFlag } from '../src/hooks/useUrl';
 
 const stories = storiesOf('Hooks', module);
 stories.addDecorator(withKnobs({ escapeHTML: false }));
 
-const Debounced = () => {
+stories.add('useDebounced', () => {
   const [value, setValue] = useDebounced(0, 3000);
   console.count('example debounced');
   return (
@@ -19,9 +23,9 @@ const Debounced = () => {
       &nbsp;times
     </button>
   );
-};
+});
 
-const Throttled = () => {
+stories.add('useThrottled', () => {
   const [value, setValue] = useThrottled(0, 3000);
   console.count('example throttled');
   return (
@@ -31,9 +35,9 @@ const Throttled = () => {
       &nbsp;times
     </button>
   );
-};
+});
 
-const Event = () => {
+stories.add('useEvent', () => {
   const [node, EventEmitter] = useEvent<HTMLDivElement>('child');
   return (
     <div style={{ width: '100%', height: '200px', overflowY: 'scroll' }}>
@@ -56,8 +60,33 @@ const Event = () => {
       <div style={{ width: '100%', height: '800px' }} />
     </div>
   );
-};
+});
 
-stories.add('useDebounced', Debounced);
-stories.add('useThrottled', Throttled);
-stories.add('useEvent', Event);
+stories.add('useAsyncState', () => {
+  const [state1, setState1] = useState<number>(0);
+  const [state2, setState2] = useState<number>(0);
+
+  useAsyncEffect(async () => {
+    await wait(1000);
+    setState1(v => v + 1);
+    await wait(1000);
+    return () => {
+      console.log('run cleanup1');
+    };
+  }, [state1]);
+
+  useAsyncEffect(async () => {
+    await wait(1000);
+    setState2(v => v + 1);
+    await wait(1000);
+    return () => {
+      console.log('run cleanup2');
+    };
+  }, []);
+
+  return (
+    <pre>
+      {JSON.stringify({ state1, state2 }, null, 4)}
+    </pre>
+  );
+});

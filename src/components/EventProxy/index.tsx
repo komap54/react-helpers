@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ResizeSensor, { ResizeSensorCallback } from 'css-element-queries/src/ResizeSensor';
-import useMounted from '../../hooks/useMounted';
 
 export type EventProxyProps = {
   component?: React.ComponentType<any> | string;
@@ -52,7 +51,6 @@ export const EventProxy = React.memo(function Spy<T extends HTMLElement = HTMLEl
   const [, setState] = React.useState(Symbol('__'));
   const ref = React.useRef<HTMLElement>(null);
   const update = () => setState(Symbol('__'));
-  useMounted();
 
   React.useEffect(() => {
     if (!ref.current || typeof window === 'undefined') {
