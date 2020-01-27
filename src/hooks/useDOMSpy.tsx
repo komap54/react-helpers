@@ -1,5 +1,4 @@
 import React, { useRef, PropsWithChildren } from 'react';
-import useMounted from './useMounted';
 import { getElement, EventProxy, EventProxyProps } from '../components/EventProxy';
 
 export default function <T extends HTMLElement>(
@@ -7,7 +6,6 @@ export default function <T extends HTMLElement>(
 ) {
   const ref = useRef<HTMLElement>(null);
   const [, update] = React.useState(Symbol('__'));
-  useMounted();
 
   return [
     getElement(ref.current, direction),
