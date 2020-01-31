@@ -6,22 +6,25 @@ import wait from './../helpers/Wait';
 import useAsyncEffect from './useAsyncEffect';
 
 const Example = (cleanUp: () => void) => () => {
-  const [state1, setState1] = React.useState(0);
   useAsyncEffect(async () => {
-    await wait(1000);
-    setState1(v => v + 1);
-    await wait(1000);
+    await wait(10);
     return cleanUp;
-  }, [state1]);
-  return [state1];
+  }, []);
 };
 
 describe('hook useAsyncEffect', () => {
   afterEach(cleanup);
 
-  test('should return initial value', () => {
+  test('should execute cleanup callback', async (finish) => {
     const cleanup = jest.fn(() => undefined);
-    const { result } = renderHook(Example(cleanup));
+    const { rerender, unmount } = renderHook(Example(cleanup));
     expect(cleanup).not.toBeCalled();
+    rerender();
+    expect(cleanup).not.toBeCalled();
+    await wait(100);
+    expect(cleanup).not.toBeCalled();
+    unmount();
+    expect(cleanup).toBeCalled();
+    finish();
   });
 });
