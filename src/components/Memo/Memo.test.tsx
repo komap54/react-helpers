@@ -9,7 +9,7 @@ const Example = ({
     MemoComponent = Memo,
     start
   }: { 
-    MemoComponent?: React.FunctionComponent<{deps?: React.DependencyList}>;
+    MemoComponent?: (React.FunctionComponent<any>);
     start: number;  
   }) => {
   const [state1, setState1] = React.useState(start);
