@@ -4,19 +4,19 @@ import { act, cleanup, render } from '@testing-library/react';
 import wait from '../../helpers/Wait'
 import Memo from './';
 import { MemoV2 } from './';
+import { Children } from '../../utils';
 
 const Example = ({
     MemoComponent = Memo,
     start
   }: { 
-    MemoComponent?: (React.FunctionComponent<any>);
+    MemoComponent?: ({ deps, children }: { deps: React.DependencyList; children?: Children }) => JSX.Element;
     start: number;  
   }) => {
   const [state1, setState1] = React.useState(start);
   const [state2, setState2] = React.useState(start);
 
-  React.useEffect(
-    () => {
+  React.useEffect(() => {
       const interval1 = setInterval(() => {
         setState1(old => old + 1);
       }, 1000);
@@ -27,14 +27,12 @@ const Example = ({
         clearInterval(interval1);
         clearInterval(interval2);
       };
-    },
-    [],
-  );
+    },[]);
 
   return (
     <div>
       <MemoComponent deps={[state1]}>
-        {state1}:{state2}
+        <>{state1}:{state2}</>
       </MemoComponent>
     </div>
   );

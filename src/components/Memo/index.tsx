@@ -14,9 +14,8 @@ export const Memo = ({
     saveCache(renderChildren(children));
   }, [...deps]);
 
-  return cache;
+  return <>{cache}</>;
 };
-
 
 export const MemoV2 = ({
   deps,
@@ -36,7 +35,7 @@ export const MemoV2 = ({
     return () => clearTimeout(timer);
   }, [...deps]);
 
-  return cache;
+  return <>{cache}</>;
 };
 
 export default Memo;
