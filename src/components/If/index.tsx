@@ -24,10 +24,20 @@ export function If({
     return _(condition) ? <>{children()}</> : null;
   }
 
+  const elseTypes = React.useMemo(() => ([
+    (<Else />).type,
+    (<ElseIf condition={false} />).type
+  ]), []);
+
+  const thenTypes = React.useMemo(() => ([
+    (<Then />).type,
+    (<ThenIf condition={false} />).type
+  ]), []);
+
   if (typeof children === 'string'
     || typeof children === 'number'
     || typeof children === 'boolean'
-    || (!Array.isArray(children) && (children as any).type !== (<Else />).type)
+    || (!Array.isArray(children) && !elseTypes.includes((children as any).type))
   ) {
     return _(condition) ? <>{children}</> : null;
   }
@@ -36,16 +46,48 @@ export function If({
   if (_(condition)) {
     return (
       <>
-        {options.filter(child => ((child as any).type !== (<Else />).type)) || null}
+        {options.filter((child: any) => !elseTypes.includes(child!.type)) || null}
       </>
     );
   }
 
   return (
     <>
-      {options.filter(child => ((child as any).type !== (<Then />).type)) || null}
+      {options.filter((child: any) => !thenTypes.includes(child!.type)) || null}
     </>
   );
 }
 
-export default { If, Then, Else };
+export function ElseIf({
+  condition,
+  children,
+}: {
+  condition: boolean | (() => boolean);
+  children?: Children;
+}) {
+  return (
+    <Else>
+      <If condition={condition}>
+        {children}
+      </If>
+    </Else>
+  );
+}
+
+export function ThenIf({
+  condition,
+  children,
+}: {
+  condition: boolean | (() => boolean);
+  children?: Children;
+}) {
+  return (
+    <Then>
+      <If condition={condition}>
+        {children}
+      </If>
+    </Then>
+  );
+}
+
+export default { If, Then, Else, ElseIf };

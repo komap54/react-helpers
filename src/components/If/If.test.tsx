@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cleanup, render } from '@testing-library/react';
 
-import { Else, If, Then } from '.';
+import { Else, If, Then, ElseIf, ThenIf } from '.';
 
 describe('If component', () => {
   afterEach(cleanup);
@@ -46,7 +46,7 @@ describe('If component', () => {
     const { container } = render(<If condition>
       <Then />
       <Else />
-                                 </If>);
+    </If>);
     expect(container.innerHTML).toBe('');
   });
 
@@ -63,5 +63,47 @@ describe('If component', () => {
   test('Render nothing if false', () => {
     const { container } = render(<If condition={false}><>Test string</></If>);
     expect(container.innerHTML).toBe('');
+  });
+  
+  test('Render ElseIf the same way as If inside Else', () => {
+    const { container: container1 } = render(
+      <If condition={false}>
+        <Else>
+          <If condition={true}>
+            <>Test string</>
+          </If>
+        </Else>
+      </If>
+    ); 
+    const { container: container2 } = render(
+      <If condition={false}>
+        <ElseIf condition={true}>
+          <>Test string</>
+        </ElseIf>
+      </If>
+    );
+    expect(container1.innerHTML).toBe('Test string');
+    expect(container2.innerHTML).toBe('Test string');
+  }); 
+  
+  test('Render ThenIf the same way as If inside Then', () => {
+    const { container: container1 } = render(
+      <If condition={true}>
+        <Then>
+          <If condition={true}>
+            <>Test string</>
+          </If>
+        </Then>
+      </If>
+    ); 
+    const { container: container2 } = render(
+      <If condition={true}>
+        <ThenIf condition={true}>
+          <>Test string</>
+        </ThenIf>
+      </If>
+    );
+    expect(container1.innerHTML).toBe('Test string');
+    expect(container2.innerHTML).toBe('Test string');
   });
 });
