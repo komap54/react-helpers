@@ -8,7 +8,7 @@ import useDebounced from '../src/hooks/useDebounced';
 import useEvent from '../src/hooks/useDOMSpy';
 import useThrottled from '../src/hooks/useThrottled';
 import useAsyncEffect from '../src/hooks/useAsyncEffect';
-import { useQueryFlag } from '../src/hooks/useUrl';
+// import { useQueryFlag } from '../src/hooks/useUrl';
 
 const stories = storiesOf('Hooks', module);
 stories.addDecorator(withKnobs({ escapeHTML: false }));

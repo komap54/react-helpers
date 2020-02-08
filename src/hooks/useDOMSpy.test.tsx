@@ -45,7 +45,7 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
@@ -64,7 +64,7 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
@@ -83,7 +83,7 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
@@ -102,7 +102,7 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
@@ -121,7 +121,7 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
@@ -140,7 +140,7 @@ describe('hook useEvent', () => {
         onMouseOut
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
@@ -158,15 +158,15 @@ describe('hook useEvent', () => {
         onMouseOut={(event) => console.log('mouseout', event)}
       />
     );
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     finish();
   });
 
   test('should rerender if size changed', (finish) => {
     const { container, rerender } = render(<Example onResize width={300} />);
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     rerender(<Example onResize width={400} />)
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 3');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
     finish();
   });
 
@@ -176,9 +176,9 @@ describe('hook useEvent', () => {
     };
 
     const { container, rerender } = render(<Example onResize={onResize} width={30} />);
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 1');
     rerender(<Example onResize={onResize} width={400} />)
-    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 3');
+    expect(container.textContent).toBe('previous sibling_child_next sibling_was rendered 2');
     finish();
   });
 });
