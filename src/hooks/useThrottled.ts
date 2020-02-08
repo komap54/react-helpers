@@ -3,13 +3,13 @@ import { Dispatch, useEffect, useRef, useState, useCallback } from 'react';
 export default function useThrottled<T1>(initialValue: T1, delay: number) {
   const timeouts = useRef<number[]>([]);
   const [throttledValue, setThrottledValue] = useState(initialValue);
-  const lastRan = useRef(Date.now());
+  const lastRun = useRef(Date.now());
 
   const setValue = useCallback((candidate) => {
-    const timeLeft = delay - (Date.now() - lastRan.current);
+    const timeLeft = delay - (Date.now() - lastRun.current);
     if (timeLeft <= 0) {
       setThrottledValue(candidate);
-      lastRan.current = Date.now();
+      lastRun.current = Date.now();
     } else {
       timeouts.current.push(setTimeout(
         () => setValue(candidate),
