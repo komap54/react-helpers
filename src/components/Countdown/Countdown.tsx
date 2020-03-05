@@ -78,11 +78,13 @@ export const Countdown = ({
   seconds,
   format = 'm:s',
   onExpire,
+  onChange,
   locale = 'en',
 }: {
   seconds: number;
   format?: CountdownFormat;
   onExpire?: () => void;
+  onChange?: (seconds: number) => void;
   locale?: CountdownLocale;
 }) => {
   const [timeLeft, setTimeLeft] = useState(seconds);
@@ -99,6 +101,9 @@ export const Countdown = ({
       const currentTime = seconds - Math.ceil((Date.now() - startAt) / 1000);
       if (currentTime !== seconds) {
         setTimeLeft(currentTime);
+        if (onChange) {
+          onChange(currentTime);
+        }
       }
     }, 100);
     return () => clearInterval(interval);
