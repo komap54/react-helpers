@@ -1,9 +1,11 @@
 import * as React from 'react';
 import ResizeSensor, { ResizeSensorCallback } from 'css-element-queries/src/ResizeSensor';
 
+import { Direction, getElement } from '../../utils';
+
 export type EventProxyProps = {
   component?: React.ComponentType<any> | string;
-  direction: 'parent' | 'child' | 'sibling-next' | 'sibling-previous' | string;
+  direction: Direction;
   onResize?: boolean | ResizeSensorCallback;
   onMutation?: boolean | MutationCallback;
   onScroll?: boolean | ((event: Event) => void);
@@ -13,24 +15,6 @@ export type EventProxyProps = {
   onBlur?: boolean | ((event: Event) => void);
   onMouseOver?: boolean | ((event: Event) => void);
   onMouseOut?: boolean | ((event: Event) => void);
-};
-
-export function getElement<T extends HTMLElement>(ref: HTMLElement | null, direction: EventProxyProps['direction']) {
-  if (!ref) {
-    return null;
-  }
-  switch (direction) {
-    case ('sibling-previous'):
-      return ref.previousElementSibling as T;
-    case ('sibling-next'):
-      return ref.nextElementSibling as T;
-    case ('child'):
-      return ref.firstElementChild as T;
-    case ('parent'):
-      return ref.parentElement as T;
-    default:
-      return ref.querySelector(direction as string) as T;
-  }
 };
 
 export const EventProxy = React.memo(function Spy<T extends HTMLElement = HTMLElement>({

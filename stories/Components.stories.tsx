@@ -14,6 +14,7 @@ import Memo from '../src/components/Memo';
 import Try from '../src/components/Try';
 import { If, Then, Else } from '../src/components/If';
 import { EventProxy } from '../src/components/EventProxy';
+import { AttributeProxy } from '../src/components/AttributeProxy';
 
 const stories = storiesOf('Components', module);
 stories.addDecorator(withKnobs({ escapeHTML: false }));
@@ -129,6 +130,23 @@ stories.add('EventProxy', () => (
     >
       <Children />
     </EventProxy>
+  </div>
+));
+
+stories.add('AttributeProxy', () => (
+  <div>
+    <AttributeProxy
+      direction={text('direction', 'child')}
+      attributes={{
+        style: {
+          color: 'yellow',
+        },
+      }}
+    >
+      <div style={{ background: 'blue' }}>
+        {'I was rendered 1 times'}
+      </div>
+    </AttributeProxy>
   </div>
 ));
 
