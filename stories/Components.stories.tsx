@@ -136,15 +136,15 @@ stories.add('EventProxy', () => (
 stories.add('AttributeProxy', () => (
   <div>
     <AttributeProxy
-      direction={text('direction', 'child')}
       attributes={{
         style: {
-          color: 'yellow',
-        },
+          color: 'red'
+        }
       }}
+      direction="child"
     >
-      <div style={{ background: 'blue' }}>
-        {'I was rendered 1 times'}
+      <div className="someClass2">
+        {'Some text'}
       </div>
     </AttributeProxy>
   </div>
