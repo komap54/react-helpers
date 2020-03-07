@@ -16,7 +16,6 @@ export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = H
   ...props
 }: React.PropsWithChildren<AttributeProxyTypes<T>>) {
   const ref = React.useRef<HTMLElement>(null);
-  const prevClass = React.useRef('');
 
   React.useEffect(() => {
     if (!ref.current || typeof window === 'undefined') {
@@ -31,11 +30,7 @@ export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = H
     const { className, style, ...rest } = attributes;
 
     if (className && !element.classList.contains(className)) {
-      if (prevClass.current) {
-        element.classList.remove(prevClass.current);
-      }
       element.classList.add(className);
-      prevClass.current = className;
     }
 
     if (style) {
@@ -46,6 +41,11 @@ export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = H
       element.setAttribute(attr, value);
     });
 
+    return () => {
+      if (className) {
+        element.classList.remove(className);
+      }
+    }
   }, [attributes, direction])
 
   return <Component {...props} ref={ref}>{children}</Component>;
