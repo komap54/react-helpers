@@ -2,15 +2,13 @@ import * as React from 'react';
 
 import { Direction, getElement } from '../../utils';
 
-export interface AttributeProxyTypes<T> {
+export interface AttributeProxyTypes<T> extends React.HTMLProps<T> {
     direction: Direction;
-    attributes: React.HTMLProps<T>;
     component?: React.ComponentType<any> | string;
-}
+};
 
 export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = HTMLDivElement>({
   component: Component = 'div',
-  attributes,
   direction,
   children,
   ...props
@@ -27,7 +25,7 @@ export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = H
       return () => undefined;
     }
 
-    const { className, style, ...rest } = attributes;
+    const { className, style, ...rest } = props;
 
     if (className && !element.classList.contains(className)) {
       element.classList.add(className);
@@ -46,7 +44,7 @@ export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = H
         element.classList.remove(className);
       }
     }
-  }, [attributes, direction])
+  }, [props, direction])
 
-  return <Component {...props} ref={ref}>{children}</Component>;
+  return <Component ref={ref}>{children}</Component>;
 });

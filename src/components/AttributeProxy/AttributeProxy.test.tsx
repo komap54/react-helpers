@@ -9,7 +9,7 @@ describe('AttributeProxy component', () => {
 
   test('Empty render', () => {
     const { container } = render(
-      <AttributeProxy attributes={{}} direction="child" />
+      <AttributeProxy direction="child" />
     );
 
     expect(container.innerHTML).toBe('<div></div>');
@@ -17,7 +17,7 @@ describe('AttributeProxy component', () => {
 
   test('Render only children', () => {
     const { container } = render(
-      <AttributeProxy attributes={{}} direction="child">
+      <AttributeProxy direction="child">
         {'Some text'}
       </AttributeProxy>
     );
@@ -28,9 +28,7 @@ describe('AttributeProxy component', () => {
   test('Render of a child with attributes', () => {
     const { getByTitle } = render(
       <AttributeProxy
-        attributes={{
-          title: 'this is title'
-        }}
+        title={'this is title'}
         direction="child"
       >
         <span>
@@ -46,9 +44,7 @@ describe('AttributeProxy component', () => {
     const { getByText } = render(
       <div>
         <AttributeProxy
-          attributes={{
-            className: 'someClass'
-          }}
+          className={'someClass'}
           direction="child"
         >
           <div id="testClass">
@@ -64,9 +60,7 @@ describe('AttributeProxy component', () => {
   test('Render from a child with a class, if there is one, then do not add a new one', () => {
     const { getByText } = render(
       <AttributeProxy
-        attributes={{
-          className: 'someClass'
-        }}
+        className={'someClass'}
         direction="child"
       >
         <div className="someClass">
@@ -81,11 +75,10 @@ describe('AttributeProxy component', () => {
   test('Render with inline styles', () => {
     const { getByText } = render(
       <AttributeProxy
-        attributes={{
-          style: {
+          style={{
             color: 'red'
           }
-        }}
+        }
         direction="child"
       >
         <div>
