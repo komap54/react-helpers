@@ -22,13 +22,8 @@ describe('hook useRefFor', () => {
   afterAll(() => {
     console.error = originalError
   })
-  afterEach(cleanup);
-  const Input = React.forwardRef((props: React.ComponentProps<'input'>, ref: React.Ref<HTMLInputElement>) => (<input {...props} ref={ref} />));
-  // const Example = () => {
-  //   const [ref, Component] = useRefFor(Input);
 
-  //   return (<span>{mounted ? 'Mounted' : 'NotMounted'}</span>)
-  // }
+  const Input = React.forwardRef((props: React.ComponentProps<'input'>, ref: React.Ref<HTMLInputElement>) => (<input {...props} ref={ref} />));
 
   test('should return ref object for component', () => {
     const { result } = renderHook(() => useRefFor(Input));

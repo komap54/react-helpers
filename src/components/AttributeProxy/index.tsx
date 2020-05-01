@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Direction, getElement } from '../../utils';
 
 export interface AttributeProxyTypes<T> extends React.HTMLProps<T> {
-    direction: Direction;
-    component?: React.ComponentType<any> | string;
+  direction: Direction;
+  component?: React.ComponentType<any> | string;
 };
 
 export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = HTMLDivElement>({
@@ -43,8 +43,8 @@ export const AttributeProxy = React.memo(function Attr<T extends HTMLElement = H
       if (className) {
         element.classList.remove(className);
       }
-    }
-  }, [props, direction])
+    };
+  }, [props, direction]);
 
   return <Component ref={ref}>{children}</Component>;
 });

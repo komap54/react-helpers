@@ -29,12 +29,12 @@
     "deploy-docs": "ts-node tools/gh-pages-publish ",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
-    "precommit": "lint-staged",
+    "precommit": "npx lint-staged",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "lint-staged": {
-    "{src,test}/**/*.tsx?": [
+    "src/**/*.tsx?": [
       "prettier --write",
       "git add"
     ]
@@ -115,7 +115,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "colors": "^1.4.0",
-    "commitizen": "^4.0.3",
+    "commitizen": "^4.0.5",
     "coveralls": "^3.0.7",
     "cross-env": "^6.0.3",
     "cz-conventional-changelog": "^3.0.2",
@@ -127,9 +127,9 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.2.0",
     "husky": "^3.0.9",
-    "jest": "^24.9.0",
-    "jest-config": "^24.9.0",
-    "lint-staged": "^9.4.2",
+    "jest": "^25.5.3",
+    "jest-config": "^25.5.3",
+    "lint-staged": "^9.5.0",
     "lodash.camelcase": "^4.3.0",
     "marked": "^0.7.0",
     "prettier": "^1.18.2",
@@ -148,7 +148,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.25.2",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^25.4.0",
     "ts-node": "^8.4.1",
     "typedoc": "^0.15.0",
     "typescript": "^3.7.4"

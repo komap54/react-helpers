@@ -57,7 +57,7 @@ stories.add('Memo', () => {
         <br />
         {value2}
         {' '}
-        do not
+        does not
       </Memo>
     </div>
   );
@@ -136,15 +136,13 @@ stories.add('EventProxy', () => (
 stories.add('AttributeProxy', () => (
   <div>
     <AttributeProxy
-      attributes={{
-        style: {
-          color: 'red'
-        }
+      style={{
+        color: 'red'
       }}
       direction="child"
     >
       <div className="someClass2">
-        {'Some text'}
+        Some text
       </div>
     </AttributeProxy>
   </div>

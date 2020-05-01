@@ -102,7 +102,7 @@ const Example = () => {
 
 ### - \<Wrapper [condition] />
 
-Conditional render like in <If />, but this time for wrapper component
+Conditional render like in < If />, but this time for wrapping components
 
 ```js
 import * as React from 'react';
@@ -206,7 +206,7 @@ render(
 
 ### - \<Try [onCatch, silent]>
 
-An react [error boundarie component](https://reactjs.org/docs/error-boundaries.html), for catching errors from its own children
+A react [error boundarie component](https://reactjs.org/docs/error-boundaries.html), for catching errors from its own children
 
 ```js
 import * as React from 'react';
@@ -267,7 +267,7 @@ const Example = () => {
 
 ### - \<EventProxy [direction]>
 
-Just render this component inside DOM, set direction to target DOM element and track any of listed below events on this element.
+Just render this component inside DOM, set direction to target DOM element and track any of these events on that element.
 
 - onResize
 - onMutation
@@ -339,7 +339,7 @@ export default () => {
 
 ### - \<Countdown [enabled]>
 
-Shows coundown in minutes or/and seconds. Supports locales `"en"` and `"ru"`
+Return coundown in minutes or/and seconds. Supports locales `"en"` and `"ru"`
 
 ```js
 import * as React from 'react';

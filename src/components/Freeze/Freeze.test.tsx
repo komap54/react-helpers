@@ -27,9 +27,10 @@ const Example = ({ start }: { start: number }) => {
 describe('Freeze component', () => {
   afterEach(cleanup);
 
-  test('Should render children normally if enabled falsy', () => {
+  test('Should render children normally if enabled falsy', (finish) => {
     const { container } = render(<Example start={0} />);
     expect(container.textContent).toBe('0');
+    finish();
   });
 
   test('Should stops update children when enabled === true', (finish) => {
