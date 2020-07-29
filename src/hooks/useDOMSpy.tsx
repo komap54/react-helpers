@@ -1,5 +1,6 @@
 import React, { useRef, PropsWithChildren } from 'react';
-import { getElement, EventProxy, EventProxyProps } from '../components/EventProxy';
+import { EventProxy, EventProxyProps } from '../components/EventProxy';
+import { getElement } from '../utils';
 
 export default function <T extends HTMLElement>(
   direction = 'parent'

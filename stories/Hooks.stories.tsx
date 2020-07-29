@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs, text, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { useState } from '@storybook/addons';
@@ -39,11 +39,12 @@ stories.add('useThrottled', () => {
 
 stories.add('useEvent', () => {
   const [node, EventEmitter] = useEvent<HTMLDivElement>('child');
+  const direction = select('direction', ['sibling-next', 'sibling-previous', 'child', 'parent'], 'parent' );
   return (
     <div style={{ width: '100%', height: '200px', overflowY: 'scroll' }}>
       <div>previous sibling</div>
       <EventEmitter
-        direction="sibling-next"
+        direction={direction}
         component='i'
         onClickCapture={action('click-capture')}
         onMouseOver={action('mouse-in')}

@@ -27,7 +27,7 @@ export const Wrapper: React.JSXElementConstructor<WrapperPropsWithWrapper | Wrap
   const { wrapper: WrapperComponent } = other as WrapperPropsWithWrapper;
   const { wrap } = other as WrapperPropsWithWrapFunc;
 
-  const inner = typeof children === 'function'
+  const content = typeof children === 'function'
     ? children()
     : <>{children}</>;
 
@@ -35,15 +35,15 @@ export const Wrapper: React.JSXElementConstructor<WrapperPropsWithWrapper | Wrap
     if (WrapperComponent) {
       return (
         <WrapperComponent>
-          {inner}
+          {content}
         </WrapperComponent>
       );
     }
     if (wrap) {
-      return <>{wrap(inner)}</>;
+      return <>{wrap(content)}</>;
     }
   }
-  return <>{inner}</>;
+  return <>{content}</>;
 };
 
 export default Wrapper;
