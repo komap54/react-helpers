@@ -1,4 +1,5 @@
 import { Dispatch, useEffect, useRef, useState, useCallback } from 'react';
+import { act } from '@testing-library/react';
 
 export default function useThrottled<T1>(initialValue: T1, delay: number) {
   const timeouts = useRef<number[]>([]);
@@ -8,7 +9,7 @@ export default function useThrottled<T1>(initialValue: T1, delay: number) {
   const setValue = useCallback((candidate) => {
     const timeLeft = delay - (Date.now() - lastRun.current);
     if (timeLeft <= 0) {
-      setThrottledValue(candidate);
+      act(() => setThrottledValue(candidate));
       lastRun.current = Date.now();
     } else {
       timeouts.current.push(setTimeout(

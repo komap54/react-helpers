@@ -9,7 +9,7 @@ const Example = ({ start }: { start: number }) => {
 
   React.useEffect(
     () => {
-      const interval = setInterval(() => { setState(old => old + 1) }, 5);
+      const interval = setInterval(() => { act(() => setState(old => old + 1)) }, 5);
       return () => clearInterval(interval);
     },
     [],

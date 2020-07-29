@@ -36,8 +36,8 @@ describe('If component', () => {
 
   test('Render Then if true', () => {
     const { container } = render(<If condition>
-      <Then>Right string</Then>
       <Else>Wrong string</Else>
+      <Then>Right string</Then>
     </If>);
     expect(container.innerHTML).toBe('Right string');
   });
