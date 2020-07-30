@@ -9,7 +9,7 @@ export default function useThrottled<T1>(initialValue: T1, delay: number) {
   const setValue = useCallback((candidate) => {
     const timeLeft = delay - (Date.now() - lastRun.current);
     if (timeLeft <= 0) {
-      act(() => setThrottledValue(candidate));
+      setThrottledValue(candidate);
       lastRun.current = Date.now();
     } else {
       timeouts.current.push(setTimeout(

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { act, cleanup, render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 
 import Freeze from '.';
 
@@ -9,7 +9,7 @@ const Example = ({ start }: { start: number }) => {
 
   React.useEffect(
     () => {
-      const interval = setInterval(() => { act(() => setState(old => old + 1)) }, 5);
+      const interval = setInterval(() => { setState(old => old + 1) }, 5);
       return () => clearInterval(interval);
     },
     [],

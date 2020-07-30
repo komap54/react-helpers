@@ -12,7 +12,7 @@ export default function useDebounced<T1>(initialValue: T1, delay: number) {
 
     timeout.current = setTimeout(
       () => {
-        act(() => setDebouncedValue(candidate));
+        setDebouncedValue(candidate);
       },
       delay,
     ) as unknown as number;

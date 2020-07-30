@@ -18,10 +18,10 @@ const Example = ({
 
   React.useEffect(() => {
       const interval1 = setInterval(() => {
-        act(() => setState1(old => old + 1));
+        setState1(old => old + 1);
       }, 1000);
       const interval2 = setInterval(() => {
-        act(() => setState2(old => old + 1));
+        setState2(old => old + 1);
       }, 1);
       return () => {
         clearInterval(interval1);
