@@ -3,10 +3,10 @@ import * as React from 'react';
 import { _, renderChildren, Children } from '../../utils';
 
 export const Then = ({ children }: { children?: Children }) => {
-  return (<>{renderChildren(children)}</>);
+  return (renderChildren(children)) as JSX.Element;
 };
 export const Else = ({ children }: { children?: Children }) => {
-  return (<>{renderChildren(children)}</>);
+  return (renderChildren(children)) as JSX.Element;
 };
 
 export function If({
@@ -15,13 +15,13 @@ export function If({
 }: {
   condition: boolean | (() => boolean);
   children?: Children;
-}) {
+}): JSX.Element | null {
   if (!children || children === null) {
     return null;
   }
 
   if (typeof children === 'function') {
-    return _(condition) ? <>{children()}</> : null;
+    return _(condition) ? children() : null;
   }
 
   const elseTypes = React.useMemo(() => ([
@@ -42,20 +42,27 @@ export function If({
     return _(condition) ? <>{children}</> : null;
   }
   const options = (Array.isArray(children) ? children : [children]);
+  const thens = options.filter((child: any) => !elseTypes.includes(child!.type)) || null;
+  const elses = options.filter((child: any) => !thenTypes.includes(child!.type)) || null;
 
   if (_(condition)) {
+    if (thens && thens.length > 1) {
+      return (
+        <>
+          {thens}
+        </>
+      );
+    }
+    return thens[0] as JSX.Element;
+  }
+  if (elses && elses.length > 1) {
     return (
       <>
-        {options.filter((child: any) => !elseTypes.includes(child!.type)) || null}
+        {elses}
       </>
     );
   }
-
-  return (
-    <>
-      {options.filter((child: any) => !thenTypes.includes(child!.type)) || null}
-    </>
-  );
+  return elses[0] as JSX.Element;
 }
 
 export function ElseIf({

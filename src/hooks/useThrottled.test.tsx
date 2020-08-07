@@ -14,9 +14,7 @@ describe('hook useThrottled', () => {
   test('should update value after delay', (finish) => {
     const { result } = renderHook(() => useThrottled(0, 100));
     expect(result.current[0]).toBe(0);
-    act(() => {
-      result.current[1](v => v + 1);
-    });
+    result.current[1](v => v + 1);
     expect(result.current[0]).toBe(0);
     setTimeout(
       () => {
@@ -31,9 +29,7 @@ describe('hook useThrottled', () => {
     const { result } = renderHook(() => useThrottled(0, 100));
     expect(result.current[0]).toBe(0);
     const interval = setInterval(() => {
-      act(() => {
-        result.current[1](v => v + 1);
-      });
+      result.current[1](v => v + 1);
     }, 10);
     setTimeout(
       () => {

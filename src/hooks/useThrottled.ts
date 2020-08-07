@@ -1,4 +1,5 @@
 import { Dispatch, useEffect, useRef, useState, useCallback } from 'react';
+import { act } from '@testing-library/react';
 
 export default function useThrottled<T1>(initialValue: T1, delay: number) {
   const timeouts = useRef<number[]>([]);

@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { act } from '@testing-library/react';
 
 export default function useDebounced<T1>(initialValue: T1, delay: number) {
   const timeout = useRef<number>();
