@@ -14,7 +14,8 @@ export default function <T extends HTMLElement>(
       return (
         <EventProxy
           component="i"
-          direction={direction}
+          // direction={direction}
+          {...({ direction })}
           {...(
             Object.entries(props)
               .reduce((acc, [key, value]) => {

@@ -131,7 +131,7 @@ export const Iframe = React.forwardRef((
     }
     return () => {
       if (iframe.current) {
-        delete iframe.current.onload;
+        delete (iframe.current as any).onload;
       }
     };
   }, [iframe.current, canBeLoaded]);

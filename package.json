@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "",
   "keywords": [],
   "main": "dist/react-helpers.umd.js",
@@ -20,13 +20,12 @@
   "scripts": {
     "lint": "eslint --fix 'src/**/*.ts' 'src/**/*.tsx'",
     "prebuild": "rimraf dist && rimraf docs",
-    "build": "tsc --module commonjs && rollup -c rollup.config.js && typedoc --out docs src/react-helpers.ts --target es6 --excludeNotExported --theme default --mode file --exclude src/utils.ts",
+    "build": "tsc --module commonjs && rollup -c rollup.config.js",
     "build:watch": "tsc --module commonjs -w",
     "start": "rollup -c rollup.config.js -w",
     "test": "jest --coverage --env=jsdom",
     "test:watch": "jest --coverage --watch --env=jsdom",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "deploy-docs": "ts-node tools/gh-pages-publish ",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "precommit": "npx lint-staged",
@@ -58,7 +57,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/src/components/Iframe/index.tsx"
+      "/src/components/Iframe/index.tsx",
+      "/src/hooks/useTabFocus.ts"
     ],
     "coverageThreshold": {
       "global": {
@@ -86,12 +86,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0",
-    "@babel/preset-typescript": "^7.7.2",
-    "@commitlint/cli": "^8.2.0",
+    "@commitlint/cli": "^10.0.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-console": "^1.2.1",
@@ -99,7 +94,7 @@
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addon-storysource": "^5.2.8",
     "@storybook/addons": "^5.2.8",
-    "@storybook/react": "^5.2.8",
+    "@storybook/react": "^6.0.16",
     "@storybook/source-loader": "^5.2.8",
     "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/react": "^9.3.2",
@@ -115,7 +110,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "colors": "^1.4.0",
-    "commitizen": "^4.0.5",
+    "commitizen": "^4.1.5",
     "coveralls": "^3.0.7",
     "cross-env": "^6.0.3",
     "cz-conventional-changelog": "^3.0.2",
@@ -150,8 +145,7 @@
     "rollup-plugin-typescript2": "^0.25.2",
     "ts-jest": "^25.4.0",
     "ts-node": "^8.4.1",
-    "typedoc": "^0.15.0",
-    "typescript": "^3.7.4"
+    "typescript": "^4.0.2"
   },
   "peerDependencies": {
     "react": "^16.12.0",

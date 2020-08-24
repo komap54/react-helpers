@@ -5,6 +5,7 @@ import useRefFor from './hooks/useRefFor';
 import useRouter from './hooks/useRouter';
 import useThrottled from './hooks/useThrottled';
 import useDOMSpy from './hooks/useDOMSpy';
+import useTabFocus from './hooks/useTabFocus';
 
 export * from './components/Iframe';
 export * from './components/Countdown';
@@ -24,4 +25,7 @@ export {
   useRouter,
   useThrottled,
   useRefFor,
+  useTabFocus,
 };
+
+export const useWindowFocus = useTabFocus;
