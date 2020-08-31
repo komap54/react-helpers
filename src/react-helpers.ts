@@ -6,6 +6,7 @@ import useRouter from './hooks/useRouter';
 import useThrottled from './hooks/useThrottled';
 import useDOMSpy from './hooks/useDOMSpy';
 import useTabFocus from './hooks/useTabFocus';
+import useCountdown from './hooks/useCountdown';
 
 export * from './components/Iframe';
 export * from './components/Countdown';

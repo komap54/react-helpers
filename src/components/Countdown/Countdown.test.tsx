@@ -123,11 +123,13 @@ describe('Countdown component', () => {
     end();
   });
 
-  // test('Should stops update children when enabled === true', (finish) => {
-  //   const { container } = render(<Example start={0} />);
-  //   setTimeout(() => {
-  //     expect(container.textContent).toBe('10');
-  //     finish();
-  //   }, 300)
-  // });
+  test('Should call onChange', (end) => {
+    const onChange = jest.fn(() => undefined);
+    const { container } = render(<Countdown seconds={10} format="m:s" onChange={onChange} />);
+    expect(container.textContent).toBe('00:10');
+    setTimeout(() => {
+      expect(onChange).toBeCalledTimes(1);
+      end();
+    }, 1000);
+  });
 });

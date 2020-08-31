@@ -74,32 +74,41 @@ export const formatTime = (seconds: number, format: CountdownFormat, locale: Cou
   }
 };
 
+export type CountdownProps =  {
+  seconds: number;
+  format?: CountdownFormat;
+  onExpire?: () => void;
+  onChange?: (seconds: number) => void;
+  locale?: CountdownLocale;
+}
+
 export const Countdown = ({
   seconds,
   format = 'm:s',
   onExpire,
   onChange,
   locale = 'en',
-}: {
-  seconds: number;
-  format?: CountdownFormat;
-  onExpire?: () => void;
-  onChange?: (seconds: number) => void;
-  locale?: CountdownLocale;
-}) => {
+}: CountdownProps) => {
   const [timeLeft, setTimeLeft] = useState(seconds);
 
   useEffect(() => {
-    if (timeLeft <= 0) {
+    setTimeLeft(seconds);
+  }, [seconds]);
+
+  useEffect(() => {
+    if (timeLeft <= 0 || seconds === 0) {
       if (onExpire) {
         onExpire();
       }
       return () => undefined;
     }
+
+    let localTime = seconds;
     const startAt = Date.now();
     const interval = setInterval(() => {
       const currentTime = seconds - Math.ceil((Date.now() - startAt) / 1000);
-      if (currentTime !== seconds) {
+      if (currentTime !== localTime) {
+        localTime = currentTime;
         setTimeLeft(currentTime);
         if (onChange) {
           onChange(currentTime);
@@ -107,9 +116,7 @@ export const Countdown = ({
       }
     }, 100);
     return () => clearInterval(interval);
-
   }, [seconds, timeLeft <= 0]);
-
   return (
     <>{formatTime(timeLeft, format, locale)}</>
   );

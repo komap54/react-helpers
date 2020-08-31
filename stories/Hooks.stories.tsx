@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs, text, select } from '@storybook/addon-knobs';
+import { withKnobs, text, select, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { useState } from '@storybook/addons';
@@ -8,6 +8,7 @@ import useDebounced from '../src/hooks/useDebounced';
 import useEvent from '../src/hooks/useDOMSpy';
 import useThrottled from '../src/hooks/useThrottled';
 import useAsyncEffect from '../src/hooks/useAsyncEffect';
+import useCountdown from '../src/hooks/useCountdown';
 // import { useQueryFlag } from '../src/hooks/useUrl';
 
 const stories = storiesOf('Hooks', module);
@@ -89,5 +90,24 @@ stories.add('useAsyncState', () => {
     <pre>
       {JSON.stringify({ state1, state2 }, null, 4)}
     </pre>
+  );
+});
+
+stories.add('useCountdown', () => {
+  const [CountdownComponent, reset] = useCountdown()
+
+  return (
+    <div>
+      <div>
+        <CountdownComponent 
+           seconds={number('seconds', 120)}
+           format={select('format', ['s', 'ss', 'mm ss', 'm:s', 'm', 'mm'], 'm:s')}
+           locale={select('locale', ['en', 'ru', 'ru-passive'], 'en')}
+        />
+      </div>
+      <div>
+      <button onClick={reset}>reset</button>
+      </div>
+    </div>
   );
 });

@@ -47,6 +47,22 @@ describe('Switch component', () => {
     expect(container.innerHTML).toBe('Test string;Right string;');
   });
 
+  test('Should accept null as child', () => {
+    const { container } = render(
+      <Switch>
+        Test string;
+        <Case condition>
+          {() => 'Right string;'}
+        </Case>
+        {null}
+        <Case condition={false}>
+          Wrong string;
+        </Case>
+      </Switch>
+    );
+    expect(container.innerHTML).toBe('Test string;Right string;');
+  });
+
 
   test('Should render Default if there are no positive cases', () => {
     const { container } = render(
@@ -126,7 +142,7 @@ describe('Switch component', () => {
     expect(container.innerHTML).toBe('Test string;Right string;');
   });
 
-  test('Should render all positive cases, when multiple === true, but not after case with break ===true', () => {
+  test('Should render all positive cases, when multiple === true, but not after case with break === true', () => {
     const { container } = render(
       <Switch multiple>
         <>Test string;</>
@@ -144,7 +160,7 @@ describe('Switch component', () => {
     expect(container.innerHTML).toBe('Test string;Right string;');
   });
 
-  test('Should throw error outside', () => {
+  test('Should throw error outside', (finish) => {
     console.error = jest.fn();
     const ErrorComponent = ({ shouldThrow }: { shouldThrow?: boolean }) => {
       if (shouldThrow) {
@@ -164,6 +180,7 @@ describe('Switch component', () => {
       );
     } catch (e) {
       expect(e.message).toBe('💣');
+      finish();
     }
   });
 });
