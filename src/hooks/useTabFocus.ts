@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-export default function useTabFocus(effects?: { onFocus?: React.EffectCallback; onBlur?: React.EffectCallback }) {
+export default function useTabFocus(
+  effects?: { onFocus?: React.EffectCallback; onBlur?: React.EffectCallback }, 
+  deps: React.DependencyList = [],
+) {
   const [focused, setFocused] = React.useState(!document.hidden);
 
   React.useEffect(() => {
@@ -25,7 +28,7 @@ export default function useTabFocus(effects?: { onFocus?: React.EffectCallback; 
       window.removeEventListener("focus", onFocus)
       window.removeEventListener("blur", onBlur)
     }
-  }, []);
+  }, deps);
 
   return focused;
 }

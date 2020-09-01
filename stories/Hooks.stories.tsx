@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs, text, select, number, button } from '@storybook/addon-knobs';
+import { withKnobs, text, select, number, button, boolean } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { useState } from '@storybook/addons';
@@ -98,14 +98,20 @@ stories.add('useCountdown', () => {
   const reseted = button('reset', reset);
   const paused = button('pause', pause);
   const resumes = button('resume', resume);
+  const render = boolean('render?', true);
+  const seconds = number('seconds', 120);
+  const format = select('format', ['s', 'ss', 'mm ss', 'm:s', 'm', 'mm'], 'm:s');
+  const locale = select('locale', ['en', 'ru', 'ru-passive'], 'en');
 
   return (
     <div>
-      <CountdownComponent 
-        seconds={number('seconds', 120)}
-        format={select('format', ['s', 'ss', 'mm ss', 'm:s', 'm', 'mm'], 'm:s')}
-        locale={select('locale', ['en', 'ru', 'ru-passive'], 'en')}
-      />
+      {render ? (
+        <CountdownComponent 
+          seconds={seconds}
+          format={format}
+          locale={locale}
+        />
+      ) : null}
     </div>
   );
 });
