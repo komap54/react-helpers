@@ -185,9 +185,10 @@ stories.add('Wrapper', () => (
   </div>
 ));
 
-stories.add('CountDown', () => (
+stories.add('Countdown', () => (
   <div>
     <Countdown
+      pause={boolean('pause', false)}
       seconds={number('seconds', 120)}
       format={select('format', ['s', 'ss', 'mm ss', 'm:s', 'm', 'mm'], 'm:s')}
       locale={select('locale', ['en', 'ru', 'ru-passive'], 'en')}

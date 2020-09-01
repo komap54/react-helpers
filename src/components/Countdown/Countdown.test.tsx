@@ -132,4 +132,15 @@ describe('Countdown component', () => {
       end();
     }, 1000);
   });
+
+  test('Should pause if pause set in true', (end) => {
+    const onChange = jest.fn(() => undefined);
+    const { container } = render(<Countdown seconds={10} pause format="m:s" onChange={onChange} />);
+    expect(container.textContent).toBe('00:10');
+    setTimeout(() => {
+      expect(onChange).toBeCalledTimes(0);
+      expect(container.textContent).toBe('00:10');
+      end();
+    }, 1500);
+  });
 });
