@@ -40,11 +40,11 @@ render(
 also, there is a shortener for case without else:
 
 ```js
-  <div>
-    <If condition={!isErrored}>
-      <MainApp/>
-    </If>
-  </div>
+<div>
+  <If condition={!isErrored}>
+    <MainApp />
+  </If>
+</div>
 ```
 
 Then and Else can receive a callbacks as children - that allows you to safely use inside them methods, props and variables
@@ -152,7 +152,7 @@ render(
 
 ### - \<Switch>
 
-Conditional render, but for several conditions. Simple implementation of javascript switch 
+Conditional render, but for several conditions. Simple implementation of javascript switch
 
 ```js
 import * as React from 'react';
@@ -189,10 +189,10 @@ Can render several positive cases
 render(
   <div>
     <Switch>
-      <Case condition={ userRoles.includes('admin') }>
+      <Case condition={userRoles.includes('admin')}>
         <AdminView />
       </Case>
-      <Case condition={ userRole.includes('regular') }>
+      <Case condition={userRole.includes('regular')}>
         <UserView />
       </Case>
       <Default>
@@ -200,8 +200,8 @@ render(
       </Default>
     </Switch>
   </div>,
-  document.getElementById('app-root'),
-);
+  document.getElementById('app-root')
+)
 ```
 
 ### - \<Try [onCatch, silent]>
@@ -236,7 +236,7 @@ const Example = () => {
 
 ### - \<Freeze [enabled]>
 
-Stops re-render its children if ```enabled = true```
+Stops re-render its children if `enabled = true`
 
 ```js
 import * as React from 'react';
@@ -309,7 +309,8 @@ const Example = () => {
 };
 ```
 
-You can pass *onEvent*=true, if you want just rerender your component
+You can pass _onEvent_=true, if you want just rerender your component
+
 > Note that you can create an infinity loop of rerender, if you content depends on element size
 
 ```js
@@ -319,7 +320,7 @@ export default () => {
       <EventProxy direction="parent" onResize />
       My width: {node.offsetWidth} and height: {node.offsetHeight}
     </div>
-  );
+  )
 }
 ```
 
@@ -329,11 +330,11 @@ Also, you can specify path to target component with query selector string.
 export default () => {
   return (
     <div>
-      <EventProxy direction="span > .class" onClick={() => console.log('Gotcha' )}>
-        <UnbelievableStupidComponent/>
+      <EventProxy direction="span > .class" onClick={() => console.log('Gotcha')}>
+        <UnbelievableStupidComponent />
       </EventProxy>
     </div>
-  );
+  )
 }
 ```
 
@@ -362,6 +363,7 @@ const Example = () => {
 ### - useRouter()
 
 React hook, which allows you to use [`match`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/match.md), [`location`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/location.md) and [`history`](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/history.md) from React-Router. Should be used in components under \<Router />, \<BrowserRouter> etc.
+
 ```js
 import * as React from 'react';
 import useRouter from '@anissoft/react-helpers/hooks/useRouter';
@@ -373,7 +375,7 @@ export default () => {
     <div>
      <p>Current route path: <b>{match.path}</b></p>
      <p>Whole pathname of page: <b>{location.pathname}</b></p>
-     <input 
+     <input
         type="button"
         onCLick={() => history.push(`${match.path}/directory`)}
       >
@@ -387,126 +389,121 @@ export default () => {
 ### - useDebounced(value, delay)
 
 Debounce the [value] for [delay] (in ms)
+
 ```js
-import * as React from 'react';
-import useDebounced from '@anissoft/react-helpers/hooks/useDebounced';
+import * as React from 'react'
+import useDebounced from '@anissoft/react-helpers/hooks/useDebounced'
 
-export default ({initial}) => {
-  const [value, setValue] = useState(initial);
-  const [debouncedValue, setDebouncedValue] = useDebounced(initial, 300);
+export default ({ initial }) => {
+  const [value, setValue] = useState(initial)
+  const [debouncedValue, setDebouncedValue] = useDebounced(initial, 300)
 
-  const handleChange = (e) => {
-     setValue(e.target.value);
-     setDebouncedValue(e.target.value);
+  const handleChange = e => {
+    setValue(e.target.value)
+    setDebouncedValue(e.target.value)
   }
 
   return (
     <div>
-      <input
-        onChange={handleChange}
-      />
+      <input onChange={handleChange} />
       <p>Value: {value}</p>
       <p>DebouncedValue: {debouncedValue}</p>
     </div>
-  );
+  )
 }
 ```
 
 ### - useThrottled(value, delay)
 
 Throttle the [value] for [delay] (in ms)
+
 ```js
-import * as React from 'react';
-import useThrottled from '@anissoft/react-helpers/hooks/useThrottled';
+import * as React from 'react'
+import useThrottled from '@anissoft/react-helpers/hooks/useThrottled'
 
-export default ({initial}) => {
-  const [value, setValue] = useState(initial);
-  const [throttledValue, setThrottledValue] = useThrottled(initial, 300);
+export default ({ initial }) => {
+  const [value, setValue] = useState(initial)
+  const [throttledValue, setThrottledValue] = useThrottled(initial, 300)
 
-  const handleChange = (e) => {
-     setValue(e.target.value);
-     setThrottledValue(e.target.value);
+  const handleChange = e => {
+    setValue(e.target.value)
+    setThrottledValue(e.target.value)
   }
 
   return (
     <div>
-      <input
-        onChange={handleChange}
-      />
+      <input onChange={handleChange} />
       <p>Value: {value}</p>
       <p>ThrottledValue: {throttledValue}</p>
     </div>
-  );
+  )
 }
 ```
 
 ### - useMounted()
 
 Shortway for 'didMount' property
+
 ```js
-import * as React from 'react';
-import If from '@anissoft/react-helpers/components/If';
-import useMounted from '@anissoft/react-helpers/hooks/useMounted';
+import * as React from 'react'
+import If from '@anissoft/react-helpers/components/If'
+import useMounted from '@anissoft/react-helpers/hooks/useMounted'
 
 export default () => {
-  const isMounted = useMounted();
+  const [mounted] = useMounted()
 
   return (
     <div>
-      <If 
-        condition={isMounted()}
+      <If
+        condition={mounted}
         then={() => <p>Component just renders</p>}
         else={() => <p>Component was rendered before</p>}
       />
     </div>
-  );
+  )
 }
 ```
 
-Since version 2.0.0 useMounted returns function - that allows you to use it in async effects to check, if component still mounted and prevent memory leak
+Since version 2.4.0 useMounted returns current state and function - that allows you to use it in async effects to check, if component still mounted and prevent memory leak
 
 ```js
 export default () => {
-  const isMounted = useMounted();
-  const [state, setState] = React.useState(0);
+  const [mounted, isMounted] = useMounted()
+  const [state, setState] = React.useState(0)
 
   React.useEffect(() => {
-    fetch('/some/api').then((res) => {
+    fetch('/some/api').then(res => {
       if (isMounted()) {
-        setState(res.ok);
+        setState(res.ok)
       }
     })
   }, [])
 
-  return (
-    <div>💣</div>
-  );
+  return <div>💣</div>
 }
 ```
 
 ### - useRefFor([React.Component])
 
 Returns enhanced component and ref for it;
-```js
-import * as React from 'react';
-import useRefFor from '@anissoft/react-helpers/hooks/useRefFor';
 
-import CustomInput from 'Components/MyInput';
+```js
+import * as React from 'react'
+import useRefFor from '@anissoft/react-helpers/hooks/useRefFor'
+
+import CustomInput from 'Components/MyInput'
 
 export default () => {
-  const [ref, Input] = useRefFor(CustomInput);
+  const [ref, Input] = useRefFor(CustomInput)
 
-  React.useEffect(
-    () => {
-      console.log('Value in input was changed since last render')
-    },
-    [ref.current.value],
-  );
+  React.useEffect(() => {
+    console.log('Value in input was changed since last render')
+  }, [ref.current.value])
 
   return (
     <div>
-     <Input />
+      <Input />
     </div>
-  );
+  )
 }
 ```

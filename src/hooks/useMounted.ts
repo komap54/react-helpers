@@ -12,5 +12,5 @@ export default function useMounted() {
     [],
   );
 
-  return () => !unmounted.current && mounted;
+  return [mounted, () => !unmounted.current];
 };
