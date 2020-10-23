@@ -23,7 +23,7 @@
     "build": "tsc --module commonjs && rollup -c rollup.config.js",
     "build:watch": "tsc --module commonjs -w",
     "start": "rollup -c rollup.config.js -w",
-    "test": "jest --coverage --env=jsdom",
+    "test": "jest --coverage --env=jsdom --silent",
     "test:watch": "jest --coverage --watch --env=jsdom",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",

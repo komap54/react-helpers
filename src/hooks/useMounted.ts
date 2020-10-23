@@ -2,15 +2,16 @@ import { useEffect, useState, useRef } from 'react';
 
 export default function useMounted() {
   const [mounted, setMounted] = useState(false);
-  const unmounted = useRef(false);
+  const unmounted = useRef(true);
 
   useEffect(
     () => {
       setMounted(true);
+      unmounted.current = false;
       return () => { unmounted.current = true; };
     },
     [],
   );
 
-  return [mounted, () => !unmounted.current];
+  return [mounted, () => !unmounted.current] as [boolean, () => boolean];
 };

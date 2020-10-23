@@ -7,17 +7,23 @@ import useMounted from './useMounted';
 
 describe('hook useMounted', () => {
   afterEach(cleanup);
-  const Example = () => {
-    const isMounted = useMounted();
+  const Example = ({ onMounting }: { onMounting: (mounted: boolean, isMounting: boolean) => void }) => {
+    const [mounted, isMounted] = useMounted();
 
-    return (<span>{isMounted() ? 'Mounted' : 'NotMounted'}</span>);
+    React.useEffect(() => {
+      onMounting(mounted, isMounted());
+    }, []);
+
+    return (<span>{mounted ? 'Mounted' : 'NotMounted'}</span>);
   };
 
   test('should return change value after mount', (finish) => {
-    const { container } = render(<Example />);
+    const onMounting = jest.fn();
+    const { container } = render(<Example onMounting={onMounting} />);
     setTimeout(() => {
+      expect(onMounting).toBeCalledWith(false, true);
       expect(container.textContent).toBe('Mounted');
       finish();
-    }, 0);
+    }, 10);
   });
 });
